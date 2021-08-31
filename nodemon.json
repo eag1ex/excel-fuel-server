@@ -1,0 +1,9 @@
+{
+  "watch": ["src/*","index.ts","src/libs/*","config.ts"],
+  "ext": "ts",
+  "ignore": ["*.test.ts"],
+  "delay": "3",
+  "execMap": {
+    "ts": "ts-node"
+  }
+}

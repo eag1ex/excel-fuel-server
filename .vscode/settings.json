@@ -1,0 +1,87 @@
+{
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/*.spec.ts": true
+      
+    },
+      "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": false
+    },
+    "node-module-intellisense.scanBuiltinModules": true,
+    "node-module-intellisense.scanDevDependencies": true,
+    "node-module-intellisense.scanFileModules": true,
+    "extensions.autoUpdate": false,
+    "editor.wordWrap": "on",
+    "sasslint.enable":true,
+    "jslint.enable": false,
+    "tslint.validate": [ "javascript", "javascriptreact", { "language": "html", "autoFix": true } ],
+
+    "peacock.affectActivityBar": true,
+    "peacock.affectStatusBar": true,
+    "peacock.affectTitleBar": true,
+    "tslint.configFile": "tslint.json" ,
+    "peacock.elementAdjustments": {
+      "activityBar": "lighten"
+    },
+
+    "standard.options": {
+        "ignore": [
+            "node_modules/**"
+        ],
+        "plugins": ["html"],
+        "parser": "babel-eslint",
+        "envs": ["jest"]
+    },
+    "[scss]": {
+      "editor.formatOnSave": true,
+  
+    },
+    "[html]": {
+      "editor.formatOnSave": true,
+      "editor.tabSize": 2
+    },
+
+    "html.format.enable": true,
+    "angular-template-formatter.indentWidth": 2,
+    "angular-template-formatter.closeTagSameLine": true,
+    "angular-template-formatter.useSpaces": true,
+    "standard.enable": false,
+    "commentAnchors.workspace.enabled": true,
+    "commentAnchors.workspace.excludeFiles": "**/{node_modules,.git,.idea,target,out,build,vendor}/**/*",
+      "javascript.updateImportsOnFileMove.enabled": "always",
+      "[javascript]": {
+          "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#7c342f",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#422c74",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "titleBar.activeBackground": "#7c342f",
+        "titleBar.inactiveBackground": "#21573299",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "statusBar.background": "#7c342f",
+        "statusBarItem.hoverBackground": "#7c342f",
+        "statusBar.foreground": "#e7e7e7"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      // For ESLint
+      "source.fixAll.eslint": true,
+      
+      // For TSLint
+      "source.fixAll.tslint": true,
+      // For Stylelint
+      "source.fixAll.stylelint": true
+    }
+    
+  }
+  
