@@ -6,9 +6,8 @@
 /bin
 /out-tsc
 info.md
-/_bin
+/bin
 # Only exists if Bazel was run
-/bazel-out
 /developer.md
 # dependencies
 /node_modules
