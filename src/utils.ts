@@ -1,14 +1,9 @@
-/**
- * @typedef {import("../types").types.IMessage} IMessage
- */
-
 import { reduce } from 'lodash'
-import { onerror, log } from 'x-utils-es/umd'
-import q from 'q'
-import config from '../../config'
+import { onerror, sq } from 'x-utils-es/umd'
+import config from './config'
+import { ENV, Message } from '@api/interfaces'
 
-export const listRoutes = (stack: any, appNameRoute: any) => {
-
+export const listRoutes = (stack: any, appNameRoute: any): Array<{ route: string }> => {
     return reduce(
         stack,
         (n: any, el, k) => {
@@ -23,27 +18,13 @@ export const listRoutes = (stack: any, appNameRoute: any) => {
     )
 }
 
-/** check if mongo _id is valid format*/
-export const validID = (id: string) => {
-    try {
-        const rgx = new RegExp('^[0-9a-fA-F]{24}$')
-        return rgx.test(id)
-    } catch (err) {
-        return false
-    }
-}
-
-export const validStatus = (status = '') => ['pending', 'completed'].indexOf(status || '') !== -1
-
 /**
+ *
  * - accepting object of messages, example: `{'001':['SimpleOrder listStore is empty',001],...}`
  * - returns : {'001':{message,code},...}
- * @returns {IMessage}
  */
-export const onMessages = (messages: any) => {
-    /** @type {IMessage} */
-    const msgs = {} as any
-
+export const onMessages = (messages: { [code: string]: [string, string] }) => {
+    const msgs = {} as Message
     for (const [k, v] of Object.entries(messages) as any) {
         msgs[k] = { message: v[0], code: v[1] }
     }
@@ -52,7 +33,6 @@ export const onMessages = (messages: any) => {
 
 /**
  * Grab tokep from headers
- * @param {*} headers {}
  */
 export const getToken = (headers: any = {}) => {
     if (headers && headers.authorization) {
@@ -63,11 +43,10 @@ export const getToken = (headers: any = {}) => {
     return null
 }
 
-export const JWTverifyAccess = (jwt: any, req: any, token: any) => {
-    const defer = q.defer()
-    if (!token) {
-        return Promise.reject('NO_TOKEN')
-    } else {
+export const JWTverifyAccess = (jwt: any, req: any, token: any): Promise<any> => {
+    const defer = sq()
+    if (!token) return Promise.reject('NO_TOKEN')
+    else {
         jwt.verify(token, config.secret, function(err: any, decoded: any) {
             if (err) {
                 onerror('[JWTverifyAccess]', err.toString())
@@ -78,19 +57,9 @@ export const JWTverifyAccess = (jwt: any, req: any, token: any) => {
             }
         })
     }
-
-    return defer.promise
+    return defer
 }
 
-/**
- * check allowed url routes to skipp authentication
- */
-export const validate = (url: string, allowed: Array<string>) => {
-    const validate =
-        allowed.filter((val) => {
-            if (url === val && val === '/') return true
-            // for base route
-            else if (val !== '/') return url.indexOf(val) !== -1
-        }).length >= 1
-    return validate
+export const env = (): ENV => {
+    return process.env.NODE_ENV as any
 }

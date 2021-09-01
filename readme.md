@@ -1,6 +1,6 @@
-## Pertol Station Locator (PSL) TS server
+## Pertol Locator (PL) TS server
 
 
 
 ### Install
-Rrequired global instalations: nodemon and typescript (tsc) for use in development
+Rrequired global instalations: nodemon typescript (tsc),esm for use in development

@@ -1,9 +1,7 @@
-
+import { Express } from 'express';
 import session from 'express-session';
-// to replace with https://www.npmjs.com/package/cookie-session
-
-import config from '../../config'
-export default (app: any) => {
+import config from './config'
+export default (app: Express) => {
     app.use(session({
         cookie: {
             path: '/',

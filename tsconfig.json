@@ -13,13 +13,19 @@
         "rootDir": "src/",
         "outDir": "dist/",
         "strict": true,
+        "baseUrl":"./",
         "sourceMap": false,
         "typeRoots": [
             "node_modules/@types"
-        ]
+        ],
+        "paths": { 
+            "@api/interfaces":[
+              "src/interfaces/index.ts"
+            ],
+        }
     },
     "include": [
-        "src/*", "index.ts", "config.ts"],
+        "src/*"],
     "exclude": [
         "dist",
         "node_modules"
