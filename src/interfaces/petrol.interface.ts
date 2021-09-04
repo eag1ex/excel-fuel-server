@@ -6,7 +6,7 @@ export interface PetrolPrices {
     product_id: string;
 }
 export interface PetrolProductPoints {
-    id: string
+    id: string | number
     status: PetrolProductPoinStatus
 }
 
@@ -16,7 +16,8 @@ export interface PetrolProducts {
 }
 
 export interface PetrolModel {
-    id: string
+    /** usually this param is assigned by db */
+    id?: string;
     name: string
     address: string
     city: string
@@ -24,4 +25,12 @@ export interface PetrolModel {
     longitude: number
     prices: PetrolPrices[]
     products: PetrolProducts[]
+    created_at?: Date;
+    updated_at?: Date;
+}
+
+export interface PetrolUpdate{
+    product_id: string;
+    name: string;
+    price: number;
 }

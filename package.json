@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev:start": "cross-env NODE_ENV=development nodemon -V index",
-    "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project . && node -r esm dist/server",
+    "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project .",
     "prod": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project .&& node -r esm dist/server",
     "start": "cross-env NODE_ENV=production node -r esm dist/server.js",
     "lint:install": "npm i tslint --save-dev",
@@ -25,12 +25,13 @@
     "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "mongo-objectid": "^1.2.2",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.12",
     "q": "^1.5.1",
     "x-utils-es": "^2.3.0"
   },
   "devDependencies": {
+    "nodemon": "^2.0.12",
     "@types/cors": "^2.8.12",
     "@types/ejs": "^3.1.0",
     "@types/express": "^4.17.13",

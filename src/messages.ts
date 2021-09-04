@@ -17,10 +17,8 @@ const messages = {
 }
 messages.msg = onMessages({
     500: ['Server error', '500'],
-    600: ['Mongo connection error', '600'],
-    '001': ['Route is no available', '001'],
+    '001': ['Route no available', '001'],
     '002': ['Issue with petrol list', '002']
 })
-
 
 export default messages.msg as Message

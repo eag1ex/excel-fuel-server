@@ -1,7 +1,8 @@
 import { reduce } from 'lodash'
-import { onerror, sq } from 'x-utils-es/umd'
+import { isArray, isNumber, objectSize, onerror, sq, truthFul } from 'x-utils-es/umd'
 import config from './config'
-import { ENV, Message } from '@api/interfaces'
+import { ENV, Message, PetrolModel, PetrolUpdate } from '@api/interfaces'
+import ObjectId from 'mongo-objectid'
 
 export const listRoutes = (stack: any, appNameRoute: any): Array<{ route: string }> => {
     return reduce(
@@ -17,6 +18,41 @@ export const listRoutes = (stack: any, appNameRoute: any): Array<{ route: string
         []
     )
 }
+
+/** generate uniq mongo id */
+export const uid = () => {
+    return new ObjectId().toString()
+}
+
+/** grap only  {name, price, product_id} */
+export const namePriceProdID = ({ name, price, product_id }): PetrolUpdate | undefined => {
+    const d = { name, price, product_id }
+
+    if (objectSize(truthFul(d)) === 3) {
+        return d
+    } else return undefined
+}
+
+
+/**
+ * Sheck input data, only return if all required props are provided
+ */
+export const petrolItem = (inputData: PetrolModel): PetrolModel => {
+    const {name, address, city, latitude, longitude, prices, products} = inputData // 7 props
+
+    if (objectSize(truthFul({name, address, city, latitude, longitude, prices, products})) !== 7){
+        return undefined as any
+    }
+    if (!isArray(prices)) return undefined as any
+    if (!isArray(products)) return undefined as any
+    if (!isNumber(longitude) || !isNumber(latitude)) return undefined as any
+
+    else return inputData
+}
+
+
+
+
 
 /**
  *

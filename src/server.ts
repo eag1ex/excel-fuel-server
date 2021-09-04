@@ -11,7 +11,7 @@ import cors from 'cors'
 import ejs from 'ejs'
 import Authentication from './libs/ctrs/auth.ctr'
 import apiRouter from './libs/routes/api.router'
-import { staticDB } from './libs/StaticDB'
+import { StaticDB } from './libs/StaticDB'
 const init = () => {
     const app = express()
 
@@ -40,6 +40,9 @@ const init = () => {
         onerror('[ServerAuth]', err)
         return
     }
+
+    // init static db
+    const staticDB = new StaticDB()
 
     // ----- load our app routes
     let api
@@ -73,9 +76,9 @@ const init = () => {
     // Initialize server
     const server = app.listen(config.port, function() {
         // @ts-ignore
-        const host = (server.address().address || '').replace(/::/, 'localhost')
+       // const host = (server.address().address || '').replace(/::/, 'localhost')
         // @ts-ignore
-        const port = server.address().port
+       // const port = server.address().port
         attention(`server running on ${config.HOST}`)
         attention('api routes: ', listRoutes(api.stack, '/api'))
         attention(`environment: ${env()}`)

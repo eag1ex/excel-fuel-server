@@ -28,6 +28,7 @@
         "src/*"],
     "exclude": [
         "dist",
+        "src/interfaces",
         "node_modules"
     ]
 }
