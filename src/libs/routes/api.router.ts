@@ -20,6 +20,10 @@
 
     // ---------- set server routes
     apiRouter.get('/petrol/list', apiCtrs.petrolList.bind(apiCtrs))
+    apiRouter.get('/petrol/item/:id', apiCtrs.petrolItem.bind(apiCtrs))
+    apiRouter.post('/petrol/update/:id', apiCtrs.updatePetrol.bind(apiCtrs))
+    apiRouter.post('/petrol/create', apiCtrs.createPetrol.bind(apiCtrs))
+    apiRouter.get('/petrol/delete/:id', apiCtrs.deletePetrol.bind(apiCtrs))
     // apiRouter.get('/ping', apiCtrs.ping.bind(apiCtrs))
 
     // catch all other routes

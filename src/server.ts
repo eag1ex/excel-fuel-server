@@ -17,7 +17,7 @@ const init = () => {
 
     app.set('trust proxy', 1) // trust first proxy
     app.use(morgan('dev'))
-    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json())
     app.use(cors())
 

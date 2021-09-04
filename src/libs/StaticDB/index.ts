@@ -4,15 +4,16 @@
 
 import { PetrolModel, PetrolUpdate } from '@api/interfaces'
 import { namePriceProdID, petrolItem, uid } from '../../utils'
-import { log } from 'x-utils-es/umd'
+import { matched } from 'x-utils-es/umd'
 
 export class StaticDB {
     constructor() {}
-    private staticList: PetrolModel[] = []
+    private staticList: PetrolModel[] = undefined as any
 
     /** propagate staticList, add {updated_at,created_at} to each item  */
     petrolList(): Promise<PetrolModel[]> {
-        if ((this.staticList || []).length) return Promise.resolve(this.staticList)
+        // as long its not undefined
+        if (this.staticList) return Promise.resolve(this.staticList)
         try {
             return import('./petrol-list.json').then((n) => {
                 let list: PetrolModel[] = n.default as any
@@ -41,7 +42,7 @@ export class StaticDB {
             product_ids = product_ids.filter((n) => !!n)
             await this.petrolList()
             const o: any[] = [] // << output
-            const found = (prod_ids: any[], item) => item.products.filter((x) => prod_ids.filter((y) => x.product_id === y).length).length
+            const found = (prod_ids: any[], item) => (item.products || []).filter((x) => prod_ids.filter((y) => x.product_id === y).length).length
 
             for (const item of this.staticList) {
                 if (found(product_ids, item)) {
@@ -63,7 +64,7 @@ export class StaticDB {
             // call initialy if for the first time
             await this.petrolList()
             let o // << output
-            const found = (prod_id, item) => item.products.filter((n) => n.product_id === prod_id).length
+            const found = (prod_id, item) => (item.products || []).filter((n) => n.product_id === prod_id).length
 
             for (const item of this.staticList) {
                 if (item.id === id) {
@@ -98,13 +99,36 @@ export class StaticDB {
         }
     }
 
-    /** add new petrol item to staticList, all fields are required except for: {created_at,updated_at,id} */
+    /**
+     *   Add new petrol item to staticList, all fields are required except for: {created_at,updated_at,id}
+     * - Do not allow creating if same latitude/longitude already exist
+     * - Do not allow creating if same address/city already exist
+    */
     async createPetrolItem(data: PetrolModel): Promise<PetrolModel> {
         try {
             // call initialy if for the first time
             await this.petrolList()
             if (!petrolItem(data)) throw new Error('createPetrolItem, invalid {data} provided')
             else {
+                // check if some details alrady exist
+                let exists = false
+                for (const item of this.staticList){
+                    if (item.latitude === data.latitude && data.longitude === item.longitude ){
+                        exists = true
+                        break
+                    }
+                    const addressA = (item.address + item.city).toLowerCase()
+                    const addressB = (data.address + data.city).toLowerCase()
+                    if (matched(addressA, new RegExp(addressB, 'gi'))){
+                        exists = true
+                        break
+                    }
+                }
+
+                if (exists){
+                    throw new Error(('Item already exists, check your {address,latitude,longitude} properties'))
+                }
+
                 const nData: PetrolModel = {
                     ...data,
                     id: uid(),
@@ -123,7 +147,7 @@ export class StaticDB {
     /** search item in staticList, make update, and only return that item*/
     async updatePetrolItem(id: string, data: PetrolUpdate): Promise<PetrolModel> {
         try {
-            if (!namePriceProdID(data)) throw new Error('updatePetrolItem, Invalid petrol update')
+            if (!namePriceProdID(data)) throw new Error('updatePetrolItem, Invalid data')
             // call initialy if for the first time
             await this.petrolList()
             let updatedItem
@@ -131,9 +155,9 @@ export class StaticDB {
                 if (item.id === id) {
                     item.name = data.name
                     // find and update one product price
-                    item.prices = item.prices.map((x) => {
+                    item.prices = (item.prices || []).map((x) => {
                         if (x.product_id === data.product_id) {
-                            x.price = data.price
+                            x.price = Number(data.price)
                         }
                         return x
                     })
@@ -182,13 +206,11 @@ export class StaticDB {
  * to createPetrolItem must provide dummy data
  *
  * */
-
 // const staticDB = new StaticDB()
-// staticDB.petrolItemByID(undefined as any).then(console.log).catch(console.error)
-// staticDB.petrolItemByProdID('1234', 'DIESEL').then(console.log).catch(console.error)
+// staticDB.petrolItemByID('61335ac2faf7da2be5d966db').then(console.log).catch(console.error)
+// staticDB.petrolItemByProdID('61335ac2faf7da2be5d966db', 'DIESEL').then(console.log).catch(console.error)
 // staticDB.petrolListAllByProdID(['DIESEL', 'BENZIN']).then(console.log).catch(console.error)
-// staticDB.updatePetrolItem('1234', {name: 'Migrol Tankstelle (alt)', price: 0, product_id: 'DIESEL'})
-// .then(console.log).catch(console.error)
-// staticDB.deletePetrolItems([]).then(console.log).catch(console.error)
+// staticDB.updatePetrolItem('61335ac2faf7da2be5d966db', {name: 'Migrol Tankstelle (alt)', price: 0, product_id: 'DIESEL'}).then(console.log).catch(console.error)
+// staticDB.deletePetrolItems(['61335ac2faf7da2be5d966db','61335ac2faf7da2be5a0dad3']).then(console.log).catch(console.error)
 // staticDB.createPetrolItem(dummydata).then(console.log).catch(console.error)
 // staticDB.petrolList().then(console.log).catch(console.error)

@@ -1,5 +1,5 @@
 import { reduce } from 'lodash'
-import { isArray, isNumber, objectSize, onerror, sq, truthFul } from 'x-utils-es/umd'
+import { isArray, isNull, isNumber, objectSize, onerror, sq, truthFul } from 'x-utils-es/umd'
 import config from './config'
 import { ENV, Message, PetrolModel, PetrolUpdate } from '@api/interfaces'
 import ObjectId from 'mongo-objectid'
@@ -28,9 +28,15 @@ export const uid = () => {
 export const namePriceProdID = ({ name, price, product_id }): PetrolUpdate | undefined => {
     const d = { name, price, product_id }
 
-    if (objectSize(truthFul(d)) === 3) {
-        return d
-    } else return undefined
+    if (objectSize(truthFul(d)) !== 3) {
+        return undefined
+    }
+
+    if (isNull(Number(price))){
+        return undefined
+    }
+
+    else return d
 }
 
 
