@@ -1,12 +1,13 @@
 /**
- * @description Our static database, initially loaded from file and storing new changes to local variable in active session
+ * @description Our static database, is loaded from file and storing new changes to local variable in active session
+ * - Each session can be assigned to different user
  */
 
 import { ExcelModel, ExcelUpdate } from '@api/interfaces'
 import { namePriceProdID, excelItem, uid } from '../../utils'
 import { copy, log, matched, onerror } from 'x-utils-es/umd'
 
-interface UserStaticList{
+interface UserStaticList {
     [name: string]: ExcelModel[]
 }
 
@@ -15,19 +16,19 @@ export class StaticDB {
     private userName: string
     private userStaticList: UserStaticList = {}
     // preset our username for now
-    constructor(userName: string= 'johndoe') {
+    constructor(userName: string = 'johndoe') {
         this.userName = userName
-        if (!this.userName){
+        if (!this.userName) {
             onerror('StaticDB requires {userName} but missing?')
         }
     }
 
-    set staticList(val){
-        log('staticList/database updated', val.length)
+    set staticList(val) {
+        log('staticList/database updated', (val || []).length)
         this.userStaticList[this.userName] = val
     }
 
-    get staticList(): ExcelModel[]{
+    get staticList(): ExcelModel[] {
         return this.userStaticList[this.userName]
     }
 
@@ -114,7 +115,7 @@ export class StaticDB {
                     break
                 }
             }
-            if (!o) throw new Error((`Item with id:${id} not found`))
+            if (!o) throw new Error(`Item with id:${id} not found`)
             else return o
         } catch (err) {
             return Promise.reject(err)
@@ -125,7 +126,7 @@ export class StaticDB {
      *   Add new excel item to staticList, all fields are required except for: {created_at,updated_at,id}
      * - Do not allow creating if same latitude/longitude already exist
      * - Do not allow creating if same address/city already exist
-    */
+     */
     async createExcel(data: ExcelModel): Promise<ExcelModel> {
         try {
             // call initialy if for the first time
@@ -134,21 +135,21 @@ export class StaticDB {
             else {
                 // check if some details alrady exist
                 let exists = false
-                for (const item of this.staticList){
-                    if (item.latitude === data.latitude && data.longitude === item.longitude ){
+                for (const item of this.staticList) {
+                    if (item.latitude === data.latitude && data.longitude === item.longitude) {
                         exists = true
                         break
                     }
                     const addressA = (item.address + item.city).toLowerCase()
                     const addressB = (data.address + data.city).toLowerCase()
-                    if (matched(addressA, new RegExp(addressB, 'gi'))){
+                    if (matched(addressA, new RegExp(addressB, 'gi'))) {
                         exists = true
                         break
                     }
                 }
 
-                if (exists){
-                    throw new Error(('Item already exists, check your {address,latitude,longitude} properties'))
+                if (exists) {
+                    throw new Error('Item already exists, check your {address,latitude,longitude} properties')
                 }
 
                 const nData: ExcelModel = {
@@ -162,7 +163,6 @@ export class StaticDB {
 
                 return this.staticList[this.staticList.length - 1]
             }
-            //
         } catch (err) {
             return Promise.reject(err)
         }
@@ -190,13 +190,12 @@ export class StaticDB {
                 }
             })
 
-            if (this.staticList[updatedIndex])  {
+            if (this.staticList[updatedIndex]) {
                 this.staticList = this.userStaticList[this.userName]
                 return this.staticList[updatedIndex]
-            } else{
-                throw new Error((`Did not update, id:${id} not found`))
+            } else {
+                throw new Error(`Did not update, id:${id} not found`)
             }
-
         } catch (err) {
             return Promise.reject(err)
         }

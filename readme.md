@@ -10,17 +10,17 @@ Required global instalations: `nodemon`,`typescript (tsc)`, and `esm`
 ## Get all available items from StaticDB
 # (GET) http://localhost:5000/api/excel/list
 
-## Get one petron station by {id}
+## Get one excel station by {id}
 # (GET) http://localhost:5000/api/excel/item/:id 
 
 ## Create new excel station when providing {ExcelModel}, excluding {created_at,updated_at,id}
 ## Checks for same latitude/longitude, or address/city
 # (POST) http://localhost:5000/api/excel/create/
 
-## Update existing petron station by {id} with details: {price,name}, accepting: {price,name,product_id}
+## Update existing excel station by {id} with details: {price,name}, accepting: {price,name,product_id}
 # (POST) http://localhost:5000/api/excel/update/:id
 
-## Delete One item by petron product {id}
+## Delete One item by excel product {id}
 # (GET) http://localhost:5000/api/excel/delete/:id
 
 ```
