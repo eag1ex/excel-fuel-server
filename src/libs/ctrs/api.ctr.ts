@@ -19,7 +19,7 @@ export default class ApiController {
         this.staticDB
             .excelList()
             .then((n) => {
-                res.status(200).json({ response: n, code: 200 })
+                res.status(200).json({ response: n || [], code: 200 })
             })
             .catch((err) => {
                 onerror(err)
@@ -36,7 +36,7 @@ export default class ApiController {
         this.staticDB
             .excelItem(id)
             .then((n) => {
-                res.status(200).json({ response: n, code: 200 })
+                res.status(200).json({ response: n || null, code: 200 })
             })
             .catch((err) => {
                 onerror(err)
@@ -58,7 +58,7 @@ export default class ApiController {
         this.staticDB
             .createExcel(data)
             .then((n) => {
-                res.status(200).json({ response: n, code: 200 })
+                res.status(200).json({ response: n || null, code: 200 })
             })
             .catch((err) => {
                 onerror(err)
@@ -81,7 +81,7 @@ export default class ApiController {
         this.staticDB
             .updateExcel(id, data)
             .then((n) => {
-                res.status(200).json({ response: n, code: 200 })
+                res.status(200).json({ response: n || null, code: 200 })
             })
             .catch((err) => {
                 onerror(err)
@@ -99,7 +99,7 @@ export default class ApiController {
         this.staticDB
             .deleteExcel([id])
             .then((n) => {
-                res.status(200).json({ response: n, code: 200 })
+                res.status(200).json({ response: n || [], code: 200 })
             })
             .catch((err) => {
                 onerror(err)

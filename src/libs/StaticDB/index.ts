@@ -4,14 +4,35 @@
 
 import { ExcelModel, ExcelUpdate } from '@api/interfaces'
 import { namePriceProdID, excelItem, uid } from '../../utils'
-import { matched } from 'x-utils-es/umd'
+import { copy, log, matched, onerror } from 'x-utils-es/umd'
+
+interface UserStaticList{
+    [name: string]: ExcelModel[]
+}
 
 export class StaticDB {
-    constructor() {}
-    private staticList: ExcelModel[] = undefined as any
+    /** user assigned to database */
+    private userName: string
+    private userStaticList: UserStaticList = {}
+    // preset our username for now
+    constructor(userName: string= 'johndoe') {
+        this.userName = userName
+        if (!this.userName){
+            onerror('StaticDB requires {userName} but missing?')
+        }
+    }
+
+    set staticList(val){
+        log('staticList/database updated', val.length)
+        this.userStaticList[this.userName] = val
+    }
+
+    get staticList(): ExcelModel[]{
+        return this.userStaticList[this.userName]
+    }
 
     /** propagate staticList, add {updated_at,created_at} to each item  */
-    excelList(): Promise<ExcelModel[]> {
+    async excelList(): Promise<ExcelModel[]> {
         // as long its not undefined
         if (this.staticList) return Promise.resolve(this.staticList)
         try {
@@ -25,8 +46,8 @@ export class StaticDB {
                         created_at: new Date(),
                     }
                 })
-                this.staticList = list
-                return list
+                this.userStaticList[this.userName] = copy(list)
+                return this.userStaticList[this.userName]
             }) as any
         } catch (err) {
             return Promise.reject(err)
@@ -93,7 +114,8 @@ export class StaticDB {
                     break
                 }
             }
-            return o
+            if (!o) throw new Error((`Item with id:${id} not found`))
+            else return o
         } catch (err) {
             return Promise.reject(err)
         }
@@ -136,6 +158,8 @@ export class StaticDB {
                     updated_at: new Date(),
                 }
                 this.staticList.push(nData)
+                this.staticList = this.userStaticList[this.userName]
+
                 return this.staticList[this.staticList.length - 1]
             }
             //
@@ -150,8 +174,8 @@ export class StaticDB {
             if (!namePriceProdID(data)) throw new Error('updateExcel, Invalid data')
             // call initialy if for the first time
             await this.excelList()
-            let updatedItem
-            this.staticList.forEach((item) => {
+            let updatedIndex: any
+            this.staticList.forEach((item, inx) => {
                 if (item.id === id) {
                     item.name = data.name
                     // find and update one product price
@@ -161,11 +185,18 @@ export class StaticDB {
                         }
                         return x
                     })
-                    updatedItem = item
+                    updatedIndex = inx
                     item.updated_at = new Date()
                 }
             })
-            return Promise.resolve(updatedItem)
+
+            if (this.staticList[updatedIndex])  {
+                this.staticList = this.userStaticList[this.userName]
+                return this.staticList[updatedIndex]
+            } else{
+                throw new Error((`Did not update, id:${id} not found`))
+            }
+
         } catch (err) {
             return Promise.reject(err)
         }
@@ -191,7 +222,10 @@ export class StaticDB {
                     this.staticList.splice(dbIndex, 1)
                     deleted++
                 })
-                if (deleted) deletedItems.push(id)
+                if (deleted) {
+                    deletedItems.push(id)
+                    this.staticList = this.userStaticList[this.userName]
+                }
             }
             return deletedItems
         } catch (err) {

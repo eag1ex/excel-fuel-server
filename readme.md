@@ -38,7 +38,7 @@ http://localhost:5000/api/excel/item/61335ac2faf7da2be5d966db
 
 ### (POST) create new item
 ##  x-www-form-urlencoded (application/json)
-# {"name":"Migrol Tankstelle (alt)","address":"Scheffelstrasse 16","city":"Zürich","latitude":47.394395,"longitude":8.52982,"prices":[{"price":1.81,"currency":"CHF","product_id":"DIESEL"}],"products":[{"product_id":"DIESEL","points":[{"id":"1","status":"available"},{"id":"2","status":"not_available"}]}]}
+# {"name":"Migrol Tankstelle (alt)","address":"Scheffelstrasse 16","city":"Zürich (alt)","latitude":47.394395,"longitude":8.52982,"prices":[{"price":1.81,"currency":"CHF","product_id":"DIESEL"}],"products":[{"product_id":"DIESEL","points":[{"id":"1","status":"available"},{"id":"2","status":"not_available"}]}]}
 http://localhost:5000/api/excel/create/
 
 
@@ -49,7 +49,7 @@ http://localhost:5000/api/excel/update/61335ac2faf7da2be5d966db
 
 
 ### (GET) delete one item by {id}
-http://localhost:5000/api/excel/item/61335ac2faf7da2be5d966db 
+http://localhost:5000/api/excel/delete/61335ac2faf7da2be5d966db 
 
 
 ### (GET) Get one item by {id}
