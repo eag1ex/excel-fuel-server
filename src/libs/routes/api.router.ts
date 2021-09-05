@@ -18,7 +18,8 @@
     })
 
     // ---------- set server routes
-    apiRouter.get('/excel/list', apiCtrs.excelList.bind(apiCtrs))
+    apiRouter.get('/excel/stations', apiCtrs.excelStations.bind(apiCtrs))
+    apiRouter.get('/excel/products', apiCtrs.excelProducts.bind(apiCtrs))
     apiRouter.get('/excel/item/:id', apiCtrs.excelItem.bind(apiCtrs))
     apiRouter.post('/excel/update/:id', apiCtrs.updateExcel.bind(apiCtrs))
     apiRouter.post('/excel/create', apiCtrs.createExcel.bind(apiCtrs))

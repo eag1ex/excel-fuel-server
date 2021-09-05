@@ -7,8 +7,11 @@ Required global instalations: `nodemon`,`typescript (tsc)`, and `esm`
 
 ### Available API routes:
 ```sh
-## Get all available items from StaticDB
-# (GET) http://localhost:5000/api/excel/list
+## Get all available Excel stations from StaticDB
+# (GET) http://localhost:5000/api/excel/stations
+
+## Get all available Excel products from StaticDB
+# (GET) http://localhost:5000/api/excel/products
 
 ## Get one excel station by {id}
 # (GET) http://localhost:5000/api/excel/item/:id 
@@ -29,8 +32,11 @@ Required global instalations: `nodemon`,`typescript (tsc)`, and `esm`
 
 ```sh
 
-### (GET) list all items
-http://localhost:5000/api/excel/list
+### (GET) list all stations for current user
+http://localhost:5000/api/excel/stations
+
+### (GET) list all products from Excel
+http://localhost:5000/api/excel/products
 
 # get one item
 http://localhost:5000/api/excel/item/61335ac2faf7da2be5d966db 

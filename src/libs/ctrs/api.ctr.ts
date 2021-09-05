@@ -11,13 +11,13 @@ export default class ApiController {
     }
 
     /**
-     * (GET) api/excel/list
+     * (GET) api/excel/stations
      * - no params
-     * Return all available items from static db
+     * Return all available excel products from static db
      */
-    excelList(req: Req, res: Resp) {
+    excelStations(req: Req, res: Resp) {
         this.staticDB
-            .excelList()
+            .excelStations()
             .then((n) => {
                 res.status(200).json({ response: n || [], code: 200 })
             })
@@ -26,6 +26,24 @@ export default class ApiController {
                 res.status(400).json({ ...messages['002'] })
             })
     }
+
+    /**
+     * (GET) api/excel/products
+     * - no params
+     * Return all available stations from static db
+     */
+    excelProducts(req: Req, res: Resp) {
+        this.staticDB
+            .excelProducts()
+            .then((n) => {
+                res.status(200).json({ response: n || [], code: 200 })
+            })
+            .catch((err) => {
+                onerror(err)
+                res.status(400).json({ ...messages['002'] })
+            })
+    }
+
 
     /**
      * (GET) api/excel/item/:id
