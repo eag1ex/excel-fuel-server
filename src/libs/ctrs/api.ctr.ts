@@ -1,10 +1,9 @@
 import config from '../../config'
-import { Req, Resp, TStaticDB, PetrolModel, PetrolUpdate } from '@api/interfaces'
+import { Req, Resp, TStaticDB, ExcelModel, ExcelUpdate } from '@api/interfaces'
 import { log, onerror, isFalsy, copy } from 'x-utils-es/umd'
 import messages from '../../messages'
 export default class ApiController {
     staticDB: TStaticDB
-    petrolListItems: PetrolModel[] = []
     debug = config.debug
 
     constructor({ staticDB }) {
@@ -12,13 +11,13 @@ export default class ApiController {
     }
 
     /**
-     * (GET) api/petrol/list
+     * (GET) api/excel/list
      * - no params
      * Return all available items from static db
      */
-    petrolList(req: Req, res: Resp) {
+    excelList(req: Req, res: Resp) {
         this.staticDB
-            .petrolList()
+            .excelList()
             .then((n) => {
                 res.status(200).json({ response: n, code: 200 })
             })
@@ -29,13 +28,13 @@ export default class ApiController {
     }
 
     /**
-     * (GET) api/petrol/item/:id
-     * Return one petrol station by {id}
+     * (GET) api/excel/item/:id
+     * Return one excel station by {id}
      */
-    petrolItem(req: Req, res: Resp) {
+    excelItem(req: Req, res: Resp) {
         const id: string = req.params.id
         this.staticDB
-            .petrolItemByID(id)
+            .excelItem(id)
             .then((n) => {
                 res.status(200).json({ response: n, code: 200 })
             })
@@ -46,18 +45,18 @@ export default class ApiController {
     }
 
     /**
-     * (POST) api/petrol/create
-     * - body:PetrolModel (without {id, created_at, updated_at})
+     * (POST) api/excel/create
+     * - body:ExcelModel (without {id, created_at, updated_at})
      * Return created item
      */
-    createPetrol(req: Req, res: Resp) {
-        const data: PetrolModel = copy(req.body)
+    createExcel(req: Req, res: Resp) {
+        const data: ExcelModel = copy(req.body)
 
         // Create, no data provided
         if (isFalsy(data)) return res.status(400).json({ ...messages['003'] })
 
         this.staticDB
-            .createPetrolItem(data)
+            .createExcel(data)
             .then((n) => {
                 res.status(200).json({ response: n, code: 200 })
             })
@@ -68,19 +67,19 @@ export default class ApiController {
     }
 
     /**
-     * (POST) api/petrol/update/:id
+     * (POST) api/excel/update/:id
      * - body: {name,price,product_id}
      * - updating {name,price}
      * Return updated petron/station by {id}
      */
-    updatePetrol(req: Req, res: Resp) {
+    updateExcel(req: Req, res: Resp) {
         const id: string = req.params.id
-        const data: PetrolUpdate = copy(req.body)
+        const data: ExcelUpdate = copy(req.body)
 
         if (isFalsy(data)) return res.status(400).json({ ...messages['006'] })
 
         this.staticDB
-            .updatePetrolItem(id, data)
+            .updateExcel(id, data)
             .then((n) => {
                 res.status(200).json({ response: n, code: 200 })
             })
@@ -91,14 +90,14 @@ export default class ApiController {
     }
 
     /**
-     * (GET) api/petrol/delete/:id
+     * (GET) api/excel/delete/:id
      * - delete item from list by id
      * Return deteled items [id]
      */
-    deletePetrol(req: Req, res: Resp) {
+    deleteExcel(req: Req, res: Resp) {
         const id: string = req.params.id
         this.staticDB
-            .deletePetrolItems([id])
+            .deleteExcel([id])
             .then((n) => {
                 res.status(200).json({ response: n, code: 200 })
             })

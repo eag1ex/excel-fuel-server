@@ -1,7 +1,7 @@
 import { reduce } from 'lodash'
 import { isArray, isNull, isNumber, isString, objectSize, onerror, sq, truthFul } from 'x-utils-es/umd'
 import config from './config'
-import { ENV, Message, PetrolModel, PetrolUpdate } from '@api/interfaces'
+import { ENV, Message, ExcelModel, ExcelUpdate } from '@api/interfaces'
 import ObjectId from 'mongo-objectid'
 
 export const listRoutes = (stack: any, appNameRoute: any): Array<{ route: string }> => {
@@ -25,7 +25,7 @@ export const uid = () => {
 }
 
 /** grap only  {name, price, product_id} */
-export const namePriceProdID = ({ name, price, product_id }): PetrolUpdate | undefined => {
+export const namePriceProdID = ({ name, price, product_id }): ExcelUpdate | undefined => {
     const d = { name, price, product_id }
 
     if (objectSize(truthFul(d)) !== 3) return undefined
@@ -38,7 +38,7 @@ export const namePriceProdID = ({ name, price, product_id }): PetrolUpdate | und
 /**
  * Sheck input data, only return if all required props are provided
  */
-export const petrolItem = (inputData: PetrolModel): PetrolModel => {
+export const excelItem = (inputData: ExcelModel): ExcelModel => {
     const {name, address, city, latitude, longitude, prices, products} = inputData // 7 props
 
     if (objectSize(truthFul({name, address, city, latitude, longitude, prices, products})) !== 7){

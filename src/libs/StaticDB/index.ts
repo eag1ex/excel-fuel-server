@@ -2,21 +2,21 @@
  * @description Our static database, initially loaded from file and storing new changes to local variable in active session
  */
 
-import { PetrolModel, PetrolUpdate } from '@api/interfaces'
-import { namePriceProdID, petrolItem, uid } from '../../utils'
+import { ExcelModel, ExcelUpdate } from '@api/interfaces'
+import { namePriceProdID, excelItem, uid } from '../../utils'
 import { matched } from 'x-utils-es/umd'
 
 export class StaticDB {
     constructor() {}
-    private staticList: PetrolModel[] = undefined as any
+    private staticList: ExcelModel[] = undefined as any
 
     /** propagate staticList, add {updated_at,created_at} to each item  */
-    petrolList(): Promise<PetrolModel[]> {
+    excelList(): Promise<ExcelModel[]> {
         // as long its not undefined
         if (this.staticList) return Promise.resolve(this.staticList)
         try {
-            return import('./petrol-list.json').then((n) => {
-                let list: PetrolModel[] = n.default as any
+            return import('./excel-list.json').then((n) => {
+                let list: ExcelModel[] = n.default as any
                 list = list.map((x) => {
                     return {
                         ...x,
@@ -33,14 +33,14 @@ export class StaticDB {
         }
     }
 
-    /** return all petrol stations that match by {product_id[]} */
-    async petrolListAllByProdID(product_ids: Array<string | number>): Promise<PetrolModel[]> {
+    /** return all excel stations that match by {product_id[]} */
+    async excelListByProdID(product_ids: Array<string | number>): Promise<ExcelModel[]> {
         try {
-            if (!(product_ids || []).length) throw new Error(`petrolListAllByProdID {product_ids} not set`)
+            if (!(product_ids || []).length) throw new Error(`excelListByProdID {product_ids} not set`)
             // call initialy if for the first time
             product_ids = [].concat(product_ids as any)
             product_ids = product_ids.filter((n) => !!n)
-            await this.petrolList()
+            await this.excelList()
             const o: any[] = [] // << output
             const found = (prod_ids: any[], item) => (item.products || []).filter((x) => prod_ids.filter((y) => x.product_id === y).length).length
 
@@ -57,12 +57,12 @@ export class StaticDB {
         }
     }
 
-    /** return petrol item by {product_id}  */
-    async petrolItemByProdID(id: string, product_id: string): Promise<PetrolModel> {
+    /** return excel item by {product_id}  */
+    async excelItemByProdID(id: string, product_id: string): Promise<ExcelModel> {
         try {
-            if (!product_id || !id) throw new Error(`petrolItemByProdID {product_id}, or {id} not set`)
+            if (!product_id || !id) throw new Error(`excelItemByProdID {product_id}, or {id} not set`)
             // call initialy if for the first time
-            await this.petrolList()
+            await this.excelList()
             let o // << output
             const found = (prod_id, item) => (item.products || []).filter((n) => n.product_id === prod_id).length
 
@@ -80,12 +80,12 @@ export class StaticDB {
         }
     }
 
-    /** return petrol item by {id}  */
-    async petrolItemByID(id: string): Promise<PetrolModel> {
+    /** return excel item by {id}  */
+    async excelItem(id: string): Promise<ExcelModel> {
         try {
-            if (!id) throw new Error(`petrolItemByID {id} not set`)
+            if (!id) throw new Error(`excelItem {id} not set`)
             // call initialy if for the first time
-            await this.petrolList()
+            await this.excelList()
             let o // << output
             for (const item of this.staticList) {
                 if (item.id === id) {
@@ -100,15 +100,15 @@ export class StaticDB {
     }
 
     /**
-     *   Add new petrol item to staticList, all fields are required except for: {created_at,updated_at,id}
+     *   Add new excel item to staticList, all fields are required except for: {created_at,updated_at,id}
      * - Do not allow creating if same latitude/longitude already exist
      * - Do not allow creating if same address/city already exist
     */
-    async createPetrolItem(data: PetrolModel): Promise<PetrolModel> {
+    async createExcel(data: ExcelModel): Promise<ExcelModel> {
         try {
             // call initialy if for the first time
-            await this.petrolList()
-            if (!petrolItem(data)) throw new Error('createPetrolItem, invalid {data} provided')
+            await this.excelList()
+            if (!excelItem(data)) throw new Error('createExcel, invalid {data} provided')
             else {
                 // check if some details alrady exist
                 let exists = false
@@ -129,7 +129,7 @@ export class StaticDB {
                     throw new Error(('Item already exists, check your {address,latitude,longitude} properties'))
                 }
 
-                const nData: PetrolModel = {
+                const nData: ExcelModel = {
                     ...data,
                     id: uid(),
                     created_at: new Date(),
@@ -145,11 +145,11 @@ export class StaticDB {
     }
 
     /** search item in staticList, make update, and only return that item*/
-    async updatePetrolItem(id: string, data: PetrolUpdate): Promise<PetrolModel> {
+    async updateExcel(id: string, data: ExcelUpdate): Promise<ExcelModel> {
         try {
-            if (!namePriceProdID(data)) throw new Error('updatePetrolItem, Invalid data')
+            if (!namePriceProdID(data)) throw new Error('updateExcel, Invalid data')
             // call initialy if for the first time
-            await this.petrolList()
+            await this.excelList()
             let updatedItem
             this.staticList.forEach((item) => {
                 if (item.id === id) {
@@ -172,14 +172,14 @@ export class StaticDB {
     }
 
     /** delete any number of items from staticList by ids[]  */
-    async deletePetrolItems(ids: Array<string | number>): Promise<Array<string>> {
+    async deleteExcel(ids: Array<string | number>): Promise<Array<string>> {
         try {
-            if (!(ids || []).length) throw new Error('deletePetrolItems, no ids provided')
+            if (!(ids || []).length) throw new Error('deleteExcel, no ids provided')
 
             ids = [].concat(ids as any)
             ids = ids.filter((n) => !!n)
             // call initialy if for the first time
-            await this.petrolList()
+            await this.excelList()
             const deletedItems: any[] = [] // list of deleted items by id
 
             for (const id of ids) {
@@ -203,14 +203,14 @@ export class StaticDB {
 /**
  * NOTE new test examples
  * uncomment each line for testing
- * to createPetrolItem must provide dummy data
+ * to createExcel must provide dummy data
  *
  * */
 // const staticDB = new StaticDB()
-// staticDB.petrolItemByID('61335ac2faf7da2be5d966db').then(console.log).catch(console.error)
-// staticDB.petrolItemByProdID('61335ac2faf7da2be5d966db', 'DIESEL').then(console.log).catch(console.error)
-// staticDB.petrolListAllByProdID(['DIESEL', 'BENZIN']).then(console.log).catch(console.error)
-// staticDB.updatePetrolItem('61335ac2faf7da2be5d966db', {name: 'Migrol Tankstelle (alt)', price: 0, product_id: 'DIESEL'}).then(console.log).catch(console.error)
-// staticDB.deletePetrolItems(['61335ac2faf7da2be5d966db','61335ac2faf7da2be5a0dad3']).then(console.log).catch(console.error)
-// staticDB.createPetrolItem(dummydata).then(console.log).catch(console.error)
-// staticDB.petrolList().then(console.log).catch(console.error)
+// staticDB.excelItem('61335ac2faf7da2be5d966db').then(console.log).catch(console.error)
+// staticDB.excelItemByProdID('61335ac2faf7da2be5d966db', 'DIESEL').then(console.log).catch(console.error)
+// staticDB.excelListByProdID(['DIESEL', 'BENZIN']).then(console.log).catch(console.error)
+// staticDB.updateExcel('61335ac2faf7da2be5d966db', {name: 'Migrol Tankstelle (alt)', price: 0, product_id: 'DIESEL'}).then(console.log).catch(console.error)
+// staticDB.deleteExcel(['61335ac2faf7da2be5d966db','61335ac2faf7da2be5a0dad3']).then(console.log).catch(console.error)
+// staticDB.createExcel(dummydata).then(console.log).catch(console.error)
+// staticDB.excelList().then(console.log).catch(console.error)

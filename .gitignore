@@ -11,7 +11,7 @@ info.md
 /developer.md
 # dependencies
 /node_modules
-
+/example.js
 
 # IDEs and editors
 /.idea

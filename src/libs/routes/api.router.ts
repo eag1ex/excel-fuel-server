@@ -1,5 +1,4 @@
 
- import path from 'path'
  import { log } from 'x-utils-es/umd'
  import express from 'express'
  import messages from '../../messages'
@@ -19,11 +18,11 @@
     })
 
     // ---------- set server routes
-    apiRouter.get('/petrol/list', apiCtrs.petrolList.bind(apiCtrs))
-    apiRouter.get('/petrol/item/:id', apiCtrs.petrolItem.bind(apiCtrs))
-    apiRouter.post('/petrol/update/:id', apiCtrs.updatePetrol.bind(apiCtrs))
-    apiRouter.post('/petrol/create', apiCtrs.createPetrol.bind(apiCtrs))
-    apiRouter.get('/petrol/delete/:id', apiCtrs.deletePetrol.bind(apiCtrs))
+    apiRouter.get('/excel/list', apiCtrs.excelList.bind(apiCtrs))
+    apiRouter.get('/excel/item/:id', apiCtrs.excelItem.bind(apiCtrs))
+    apiRouter.post('/excel/update/:id', apiCtrs.updateExcel.bind(apiCtrs))
+    apiRouter.post('/excel/create', apiCtrs.createExcel.bind(apiCtrs))
+    apiRouter.get('/excel/delete/:id', apiCtrs.deleteExcel.bind(apiCtrs))
     // apiRouter.get('/ping', apiCtrs.ping.bind(apiCtrs))
 
     // catch all other routes
