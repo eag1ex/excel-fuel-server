@@ -86,13 +86,13 @@ export default class ApiController {
 
     /**
      * (POST) api/excel/update/:id
-     * - body: {name,price,product_id}
+     * - body: [{name,price,product_id}]
      * - updating {name,price}
      * Return updated petron/station by {id}
      */
     updateExcel(req: Req, res: Resp) {
         const id: string = req.params.id
-        const data: ExcelUpdate = copy(req.body)
+        const data: ExcelUpdate[] = copy(req.body)
 
         if (isFalsy(data)) return res.status(400).json({ ...messages['006'] })
 

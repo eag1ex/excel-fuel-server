@@ -191,25 +191,34 @@ export class StaticDB {
     }
 
     /** search item in staticExcelStations, make update, and only return that item*/
-    async updateExcel(id: string, data: ExcelUpdate): Promise<ExcelModel> {
+    async updateExcel(id: string, data: ExcelUpdate[]): Promise<ExcelModel> {
+
         try {
-            if (!namePriceProdID(data)) throw new Error('updateExcel, Invalid data')
-            // call initialy if for the first time
             await this.excelStations()
             let updatedIndex: any
-            this.staticExcelStations.forEach((item, inx) => {
-                if (item.id === id) {
-                    item.name = data.name
-                    // find and update one product price
-                    item.prices = (item.prices || []).map((x) => {
-                        if (x.product_id === data.product_id) {
-                            x.price = Number(data.price)
-                        }
-                        return x
-                    })
-                    updatedIndex = inx
-                    item.updated_at = new Date()
-                }
+
+            let updateMulti = (d: ExcelUpdate) => {
+                if (!namePriceProdID(d)) throw new Error('updateExcel, Invalid data')
+                // call initialy if for the first time
+                this.staticExcelStations.forEach((item, inx) => {
+                    if (item.id === id) {
+                        item.name = d.name
+                        // find and update one product price
+                        item.prices = (item.prices || []).map((x) => {
+                            if (x.product_id === d.product_id) {
+                                x.price = Number(d.price)
+                            }
+                            return x
+                        })
+
+                        updatedIndex = inx
+                        item.updated_at = new Date()
+                    }
+                })
+            }
+
+            data.forEach((d) => {
+                updateMulti(d)
             })
 
             if (this.staticExcelStations[updatedIndex]) {
@@ -265,7 +274,7 @@ export class StaticDB {
 // staticDB.excelItem('61335ac2faf7da2be5d966db').then(console.log).catch(console.error)
 // staticDB.excelItemByProdID('61335ac2faf7da2be5d966db', 'DIESEL').then(console.log).catch(console.error)
 // staticDB.excelStationsByProdID(['DIESEL', 'BENZIN']).then(console.log).catch(console.error)
-// staticDB.updateExcel('61335ac2faf7da2be5d966db', {name: 'Migrol Tankstelle (alt)', price: 0, product_id: 'DIESEL'}).then(console.log).catch(console.error)
+// staticDB.updateExcel('61335ac2faf7da2be5d966db', [{name: 'Migrol Tankstelle (alt)', price: 0, product_id: 'DIESEL'}]).then(console.log).catch(console.error)
 // staticDB.deleteExcel(['61335ac2faf7da2be5d966db','61335ac2faf7da2be5a0dad3']).then(console.log).catch(console.error)
 // staticDB.createExcel(dummydata).then(console.log).catch(console.error)
 // staticDB.excelStations().then(console.log).catch(console.error)

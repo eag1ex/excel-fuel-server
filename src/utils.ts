@@ -1,5 +1,5 @@
 import { reduce } from 'lodash'
-import { isArray, isNull, isNumber, isString, objectSize, onerror, sq, truthFul } from 'x-utils-es/umd'
+import { isArray, isNumber, isString, objectSize, onerror, sq, truthFul } from 'x-utils-es/umd'
 import config from './config'
 import { ENV, Message, ExcelModel, ExcelUpdate } from '@api/interfaces'
 import ObjectId from 'mongo-objectid'
@@ -28,8 +28,11 @@ export const uid = () => {
 export const namePriceProdID = ({ name, price, product_id }): ExcelUpdate | undefined => {
     const d = { name, price, product_id }
 
+
+    if(!/^[a-z0-9]+$/i.test(name)) return undefined
+
     if (objectSize(truthFul(d)) !== 3) return undefined
-    if (isNull(Number(price))) return undefined
+    if (isNaN(Number(price))) return undefined
     if (!isString(product_id)) return undefined
     else return d
 }

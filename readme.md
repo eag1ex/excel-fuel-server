@@ -20,7 +20,7 @@ Required global instalations: `nodemon`,`typescript (tsc)`, and `esm`
 ## Checks for same latitude/longitude, or address/city
 # (POST) http://localhost:5000/api/excel/create/
 
-## Update existing excel station by {id} with details: {price,name}, accepting: {price,name,product_id}
+## Update existing excel station by {id} with details: [{price,name}, accepting: {price,name,product_id}]
 # (POST) http://localhost:5000/api/excel/update/:id
 
 ## Delete One item by excel product {id}
@@ -38,6 +38,7 @@ http://localhost:5000/api/excel/stations
 ### (GET) list all products from Excel
 http://localhost:5000/api/excel/products
 
+
 # get one item
 http://localhost:5000/api/excel/item/61335ac2faf7da2be5d966db 
 
@@ -50,7 +51,7 @@ http://localhost:5000/api/excel/create/
 
 ### (POST) update item by {id} with {name,price}, accepting {price,name,product_id}
 ##  x-www-form-urlencoded (application/json)
-# {"name":"Migrol Tankstelle (alt)","price":"1.1","product_id":"DIESEL"}
+# [{"name":"Migrol Tankstelle (alt)","price":"1.1","product_id":"DIESEL"}]
 http://localhost:5000/api/excel/update/61335ac2faf7da2be5d966db
 
 
