@@ -1,6 +1,6 @@
 import config from '../../config'
-import { Req, Resp, TStaticDB, ExcelModel, ExcelUpdate } from '@api/interfaces'
-import { log, onerror, isFalsy, copy } from 'x-utils-es/umd'
+import { Req, Resp, TStaticDB, ExcelModel, ExcelUpdate, AuthCredentials, Session } from '@api/interfaces'
+import {  onerror, isFalsy, copy } from 'x-utils-es/umd'
 import messages from '../../messages'
 export default class ApiController {
     staticDB: TStaticDB
@@ -8,6 +8,18 @@ export default class ApiController {
 
     constructor({ staticDB }) {
         this.staticDB = staticDB
+    }
+
+    /**
+     * (POST) api/auth/
+     * - this will go thru AppUseAuth pre/process
+     * - body: {username,password} << using hardcoded credentials
+     * returns valid {token}
+     */
+    excelAuth(req: Req & { session?: Session }, res: Resp){
+
+       //  const auth:AuthCredentials = req.body
+        res.status(200).json({ response: {token: (req.session || {}).accessToken}, code: 200 })
     }
 
     /**

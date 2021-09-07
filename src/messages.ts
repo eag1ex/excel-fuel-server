@@ -17,6 +17,7 @@ const messages = {
 }
 messages.msg = onMessages({
     500: ['Server error', '500'],
+    '000':['Wrong login details','000'],
     '001': ['Route no available', '001'],
     '002': ['Problem with excel list', '002'],
     '003': ['Create, no data provided', '003'], // createExcel

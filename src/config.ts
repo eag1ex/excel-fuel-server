@@ -11,7 +11,9 @@ export default {
     // NOTE {MY_APP} is a custom var set on heroku to distinguish between environments
     HOST: process.env.MY_APP === 'dbName' ? '' : `http://localhost:${port}`,
     viewsDir: path.join(__dirname, './views'),
+    // hardcoded credentials including the server /api/auth
     staticDB: {
-        defaultUser: 'johndoe' // our default user
+        username: 'eaglex', // our default user
+        password: 'eaglex' // insecure password, for demo only
     }
 }

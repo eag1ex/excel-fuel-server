@@ -28,8 +28,7 @@ export const uid = () => {
 export const namePriceProdID = ({ name, price, product_id }): ExcelUpdate | undefined => {
     const d = { name, price, product_id }
 
-
-    if(!/^[a-z0-9]+$/i.test(name)) return undefined
+    if (!/^[a-z0-9\s]+$/i.test(name)) return undefined
 
     if (objectSize(truthFul(d)) !== 3) return undefined
     if (isNaN(Number(price))) return undefined
@@ -37,26 +36,20 @@ export const namePriceProdID = ({ name, price, product_id }): ExcelUpdate | unde
     else return d
 }
 
-
 /**
  * Sheck input data, only return if all required props are provided
  */
 export const excelItem = (inputData: ExcelModel): ExcelModel => {
-    const {name, address, city, latitude, longitude, prices, products} = inputData // 7 props
+    const { name, address, city, latitude, longitude, prices, products } = inputData // 7 props
 
-    if (objectSize(truthFul({name, address, city, latitude, longitude, prices, products})) !== 7){
+    if (objectSize(truthFul({ name, address, city, latitude, longitude, prices, products })) !== 7) {
         return undefined as any
     }
     if (!isArray(prices)) return undefined as any
     if (!isArray(products)) return undefined as any
     if (!isNumber(longitude) || !isNumber(latitude)) return undefined as any
-
     else return inputData
 }
-
-
-
-
 
 /**
  *
@@ -77,28 +70,31 @@ export const onMessages = (messages: { [code: string]: [string, string] }) => {
 export const getToken = (headers: any = {}) => {
     if (headers && headers.authorization) {
         const parted = headers.authorization.split(' ')
+        // get after Bearer
         if (parted.length === 2) return parted[1]
         else return null
     }
     return null
 }
 
-export const JWTverifyAccess = (jwt: any, req: any, token: any): Promise<any> => {
+export const JWTverifyAccess = (jwt: any, req: any, token: any): Promise<boolean | string> => {
     const defer = sq()
     if (!token) return Promise.reject('NO_TOKEN')
     else {
         jwt.verify(token, config.secret, function(err: any, decoded: any) {
             if (err) {
                 onerror('[JWTverifyAccess]', err.toString())
-                defer.reject('NOT_AUTHENTICATED')
+                defer.reject(err)
             } else {
-                req.token = decoded // [1]
-                defer.resolve(true)
+                req.token = decoded
+                defer.resolve('SESSION_VALID')
             }
         })
     }
     return defer
 }
+
+export const validCreds = ({ username, password }): boolean => username === config.staticDB.username && password === config.staticDB.password
 
 export const env = (): ENV => {
     return process.env.NODE_ENV as any

@@ -18,6 +18,7 @@
     })
 
     // ---------- set server routes
+    apiRouter.post('/auth', apiCtrs.excelAuth.bind(apiCtrs)) // validate or set new token first
     apiRouter.get('/excel/stations', apiCtrs.excelStations.bind(apiCtrs))
     apiRouter.get('/excel/products', apiCtrs.excelProducts.bind(apiCtrs))
     apiRouter.get('/excel/item/:id', apiCtrs.excelItem.bind(apiCtrs))

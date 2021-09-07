@@ -4,7 +4,7 @@
     "name": "Migrol Tankstelle",
     "address": "Scheffelstrasse 16",
     "city": "Zürich",
-    "latitude": 47.3943939,
+    "latitude": 47.3943939, 
     "longitude": 8.52981,
     "prices": [
       {

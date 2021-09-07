@@ -5,3 +5,8 @@ export interface Message{
 }
 
 export type ENV = 'development'|'production'
+
+export interface AuthCredentials{
+        username: string;
+        password: string;
+}

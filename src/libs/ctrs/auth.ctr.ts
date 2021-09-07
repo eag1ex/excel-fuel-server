@@ -1,3 +1,4 @@
+
 /**
  * @description ServerAuth extension
  */
@@ -5,13 +6,12 @@
 import { Req } from '@api/interfaces'
 import { Express } from 'express'
 import jwt from 'jsonwebtoken'
-
-// const { log, warn, delay, attention, onerror } = require('x-utils-es/umd')
 import config from '../../config'
-import { getToken, JWTverifyAccess } from '../../utils'
-import { Resp } from '../../interfaces/server.interface'
-import { attention, log, warn } from 'x-utils-es/umd'
-const ENV = config.env // development,production
+import { getToken, JWTverifyAccess, validCreds } from '../../utils'
+import { Resp, Session } from '../../interfaces/server.interface'
+import { attention, log } from 'x-utils-es/umd'
+import messages from '../../messages'
+// const ENV = config.env
 
 class ServerAuth {
     debug = config.debug
@@ -22,68 +22,61 @@ class ServerAuth {
     }
 
     /**
-     * @alwaysInSession
      * sets jtw token on `req.session.accessToken`
      */
-    alwaysInSession(req) {
-        ; (function set() {
-            const expiresNever = Math.round(new Date().getTime() / 1000) + 360000000000000000 * 100000000000
-            const authentication = {
-                username: 'pl',
-                password: 'pl',
-                date: new Date(),
-            }
-            const token = jwt.sign(authentication, config.secret, { expiresIn: expiresNever })
-            req.session.accessToken = token
-        })()
-         return this
+    makeSession(req: Req & { session?: Session }): void {
+        const expiresNever = Math.round(new Date().getTime() / 1000) + 360000000000000000 * 100000000000
+        const authentication = {
+            username: config.staticDB.username,
+            password: config.staticDB.password,
+            date: new Date(),
+        }
+        const token = jwt.sign(authentication, config.secret, { expiresIn: expiresNever })
+        req.session.accessToken = token
+        log('new session made')
     }
 
     /**
      * Check credentials on every request
      *
      */
-    async checkCreds(req: Req, res: Resp, next: any) {
+    async checkCreds(req: Req & { session?: Session }, res: Resp, next: any) {
         // todo we will add our static token here
+        let validToken = false
+        // check headers first, if not available use the session
+        const token = getToken(req.headers) || (req.session || {}).accessToken
+        if (token) {
+            try {
+                validToken = (await JWTverifyAccess(jwt, req, token)) === 'SESSION_VALID'
+                log('[session][valid] ', token)
+            } catch (err) {
+                //
+            }
+        }
 
-        //     const token = (req.session || {}).accessToken || getToken(req.headers)
-        //     try {
-        //         await JWTverifyAccess(jwt, req, token)
-        //         log('[login][session]', 'still valid')
-        //         return res.redirect(config.HOST + '/bucket/')
-        //     } catch (err) {
-        //         //
-        //     }
-        const auth = req.body || {}
+        // only accept form credentials for POST requests
+        if (!validToken && req.method !== 'POST'){
+            return res.status(400).json({ ...messages['000'] })
+        }
 
-        // if (!auth) {
-        //     return res.status(400).json({ error: true, message: 'wrong auth provided!' })
-        // }
+        // if session expired or invalid check if asking for user details
+        if (!validToken) {
+            const auth = req.body || {}
+            if (!validCreds({ username: auth.username, password: auth.password })) {
+                return res.status(400).json({ ...messages['000'] })
 
-        // if (auth.username.indexOf('pl') === -1 || auth.password.indexOf('pl') === -1) {
-        //     return res.status(400).json({ error: true, message: 'wrong auth provided!' })
-        // }
+            } else {
+                // credentials are correnct make new session
+                this.makeSession(req)
+            }
+        }
 
-        // const authentication = {
-        //     username: auth.username,
-        //     password: auth.password,
-        //     date: new Date(),
-        // }
-
-        // // we are sending the profile in the token
-        // const token = jwt.sign(authentication, config.secret, { expiresIn: '30m' });
-        // (req.session as any).accessToken = token
-
-        // your "Authorization: Bearer {token}"
         attention('[header][authorization][token]', (req.session as any).accessToken)
         log('[checkCreds][success]')
         return next()
-
-        // return res.redirect(config.HOST + '/bucket/')
     }
 
-    async authCheck(req: Req, res: Resp, next: any) {
-        this.alwaysInSession(req)
+    async authNext(req: Req, res: Resp, next: any) {
 
         res.header('Access-Control-Allow-Origin', '*')
         res.header('Access-Control-Allow-Methods', 'GET')
@@ -96,7 +89,7 @@ class ServerAuth {
     }
 
     AppUseAuth() {
-        this.expressApp.use(this.authCheck.bind(this))
+        this.expressApp.use(this.authNext.bind(this))
     }
 }
 

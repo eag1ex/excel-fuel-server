@@ -1,3 +1,4 @@
+
 /**
  * @description Our static database, is loaded from file and storing new changes to local variable in active session
  * - Each session can be assigned to different user
@@ -6,7 +7,7 @@
 import { ExcelModel, ExcelProduct, ExcelUpdate } from '@api/interfaces'
 import { namePriceProdID, excelItem, uid } from '../../utils'
 import { copy, log, matched, onerror } from 'x-utils-es/umd'
-
+import config from '../../config'
 interface UserStaticStations {
     [name: string]: ExcelModel[]
 }
@@ -19,7 +20,7 @@ export class StaticDB {
     private staticExcelProducts: ExcelProduct[] = undefined as any
 
     // preset our username for now
-    constructor(userName: string = 'johndoe') {
+    constructor(userName: string = config.staticDB.username) {
         this.userName = userName
         if (!this.userName) {
             onerror('StaticDB requires {userName} but missing?')
@@ -102,27 +103,27 @@ export class StaticDB {
     }
 
     /** return excel item by {product_id}  */
-    async excelItemByProdID(id: string, product_id: string): Promise<ExcelModel> {
-        try {
-            if (!product_id || !id) throw new Error(`excelItemByProdID {product_id}, or {id} not set`)
-            // call initialy if for the first time
-            await this.excelStations()
-            let o // << output
-            const found = (prod_id, item) => (item.products || []).filter((n) => n.product_id === prod_id).length
+    // async excelItemByProdID(id: string, product_id: string): Promise<ExcelModel> {
+    //     try {
+    //         if (!product_id || !id) throw new Error(`excelItemByProdID {product_id}, or {id} not set`)
+    //         // call initialy if for the first time
+    //         await this.excelStations()
+    //         let o // << output
+    //         const found = (prod_id, item) => (item.products || []).filter((n) => n.product_id === prod_id).length
 
-            for (const item of this.staticExcelStations) {
-                if (item.id === id) {
-                    if (found(product_id, item)) {
-                        o = item
-                    }
-                    break
-                }
-            }
-            return o
-        } catch (err) {
-            return Promise.reject(err)
-        }
-    }
+    //         for (const item of this.staticExcelStations) {
+    //             if (item.id === id) {
+    //                 if (found(product_id, item)) {
+    //                     o = item
+    //                 }
+    //                 break
+    //             }
+    //         }
+    //         return o
+    //     } catch (err) {
+    //         return Promise.reject(err)
+    //     }
+    // }
 
     /** return excel item by {id}  */
     async excelItem(id: string): Promise<ExcelModel> {
@@ -193,6 +194,8 @@ export class StaticDB {
     /** search item in staticExcelStations, make update, and only return that item*/
     async updateExcel(id: string, data: ExcelUpdate[]): Promise<ExcelModel> {
 
+        // 
+
         try {
             await this.excelStations()
             let updatedIndex: any
@@ -216,7 +219,7 @@ export class StaticDB {
                     }
                 })
             }
-
+  
             data.forEach((d) => {
                 updateMulti(d)
             })
@@ -231,6 +234,7 @@ export class StaticDB {
             return Promise.reject(err)
         }
     }
+
 
     /** delete any number of items from staticExcelStations by ids[]  */
     async deleteExcel(ids: Array<string | number>): Promise<Array<string>> {
