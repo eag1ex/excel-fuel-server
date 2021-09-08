@@ -4,8 +4,8 @@
  * - Each session can be assigned to different user
  */
 
-import { ExcelModel, ExcelProduct, ExcelUpdate } from '@api/interfaces'
-import { namePriceProdID, excelItem, uid } from '../../utils'
+import { ExcelModel, ExcelProduct } from '@api/interfaces'
+import {excelItem, uid, excelItemUpdate } from '../../utils'
 import { copy, log, matched, onerror } from 'x-utils-es/umd'
 import config from '../../config'
 interface UserStaticStations {
@@ -79,28 +79,28 @@ export class StaticDB {
     }
 
     /** return all excel stations that match by {product_id[]} */
-    async excelStationsByProdID(product_ids: Array<string | number>): Promise<ExcelModel[]> {
-        try {
-            if (!(product_ids || []).length) throw new Error(`excelStationsByProdID {product_ids} not set`)
-            // call initialy if for the first time
-            product_ids = [].concat(product_ids as any)
-            product_ids = product_ids.filter((n) => !!n)
-            await this.excelStations()
-            const o: any[] = [] // << output
-            const found = (prod_ids: any[], item) => (item.products || []).filter((x) => prod_ids.filter((y) => x.product_id === y).length).length
+    // async excelStationsByProdID(product_ids: Array<string | number>): Promise<ExcelModel[]> {
+    //     try {
+    //         if (!(product_ids || []).length) throw new Error(`excelStationsByProdID {product_ids} not set`)
+    //         // call initialy if for the first time
+    //         product_ids = [].concat(product_ids as any)
+    //         product_ids = product_ids.filter((n) => !!n)
+    //         await this.excelStations()
+    //         const o: any[] = [] // << output
+    //         const found = (prod_ids: any[], item) => (item.products || []).filter((x) => prod_ids.filter((y) => x.product_id === y).length).length
 
-            for (const item of this.staticExcelStations) {
-                if (found(product_ids, item)) {
-                    o.push(item)
-                }
-            }
+    //         for (const item of this.staticExcelStations) {
+    //             if (found(product_ids, item)) {
+    //                 o.push(item)
+    //             }
+    //         }
 
-            if (!o.length) return []
-            else return o
-        } catch (err) {
-            return Promise.reject(err)
-        }
-    }
+    //         if (!o.length) return []
+    //         else return o
+    //     } catch (err) {
+    //         return Promise.reject(err)
+    //     }
+    // }
 
     /** return excel item by {product_id}  */
     // async excelItemByProdID(id: string, product_id: string): Promise<ExcelModel> {
@@ -163,6 +163,7 @@ export class StaticDB {
                         exists = true
                         break
                     }
+
                     const addressA = (item.address + item.city).toLowerCase()
                     const addressB = (data.address + data.city).toLowerCase()
                     if (matched(addressA, new RegExp(addressB, 'gi'))) {
@@ -192,36 +193,64 @@ export class StaticDB {
     }
 
     /** search item in staticExcelStations, make update, and only return that item*/
-    async updateExcel(id: string, data: ExcelUpdate[]): Promise<ExcelModel> {
+    // async updateExcel(id: string, data: ExcelUpdate[]): Promise<ExcelModel> {
 
-        // 
+    //     // 
+
+    //     try {
+    //         await this.excelStations()
+    //         let updatedIndex: any
+
+    //         let updateMulti = (d: ExcelUpdate) => {
+    //             if (!namePriceProdID(d)) throw new Error('updateExcel, Invalid data')
+    //             // call initialy if for the first time
+    //             this.staticExcelStations.forEach((item, inx) => {
+    //                 if (item.id === id) {
+    //                     item.name = d.name
+    //                     // find and update one product price
+    //                     item.prices = (item.prices || []).map((x) => {
+    //                         if (x.product_id === d.product_id) {
+    //                             x.price = Number(d.price)
+    //                         }
+    //                         return x
+    //                     })
+
+    //                     updatedIndex = inx
+    //                     item.updated_at = new Date()
+    //                 }
+    //             })
+    //         }
+  
+    //         data.forEach((d) => {
+    //             updateMulti(d)
+    //         })
+
+    //         if (this.staticExcelStations[updatedIndex]) {
+    //             this.staticExcelStations = this.userStaticExcelStations[this.userName]
+    //             return this.staticExcelStations[updatedIndex]
+    //         } else {
+    //             throw new Error(`Did not update, id:${id} not found`)
+    //         }
+    //     } catch (err) {
+    //         return Promise.reject(err)
+    //     }
+    // }
+
+    async updateExcelV2(id: string, data: ExcelModel): Promise<ExcelModel> {
+        
 
         try {
             await this.excelStations()
+            if (!excelItemUpdate(data)) throw new Error('updateExcel, Invalid data')
+
+            const {name,prices} = data
             let updatedIndex: any
-
-            let updateMulti = (d: ExcelUpdate) => {
-                if (!namePriceProdID(d)) throw new Error('updateExcel, Invalid data')
-                // call initialy if for the first time
-                this.staticExcelStations.forEach((item, inx) => {
-                    if (item.id === id) {
-                        item.name = d.name
-                        // find and update one product price
-                        item.prices = (item.prices || []).map((x) => {
-                            if (x.product_id === d.product_id) {
-                                x.price = Number(d.price)
-                            }
-                            return x
-                        })
-
-                        updatedIndex = inx
-                        item.updated_at = new Date()
-                    }
-                })
-            }
-  
-            data.forEach((d) => {
-                updateMulti(d)
+            this.staticExcelStations.forEach((item, inx) => {
+                if(item.id===id){
+                    item.prices = prices
+                    item.name =name
+                    updatedIndex = inx
+                }
             })
 
             if (this.staticExcelStations[updatedIndex]) {

@@ -7,7 +7,8 @@ export default {
     debug: true,
     env: env(), // development,production
     port,
-    secret: '456thy67987899808',
+    /** changing secret will void last session */
+    secret: 'r456thy67534987854998508we',
     // NOTE {MY_APP} is a custom var set on heroku to distinguish between environments
     HOST: process.env.MY_APP === 'dbName' ? '' : `http://localhost:${port}`,
     viewsDir: path.join(__dirname, './views'),

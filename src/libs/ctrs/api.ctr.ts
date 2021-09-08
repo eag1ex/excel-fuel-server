@@ -1,5 +1,5 @@
 import config from '../../config'
-import { Req, Resp, TStaticDB, ExcelModel, ExcelUpdate, AuthCredentials, Session } from '@api/interfaces'
+import { Req, Resp, TStaticDB, ExcelModel, AuthCredentials, Session } from '@api/interfaces'
 import {  onerror, isFalsy, copy } from 'x-utils-es/umd'
 import messages from '../../messages'
 export default class ApiController {
@@ -104,12 +104,12 @@ export default class ApiController {
      */
     updateExcel(req: Req, res: Resp) {
         const id: string = req.params.id
-        const data: ExcelUpdate[] = copy(req.body)
+        const data: ExcelModel= copy(req.body)
 
         if (isFalsy(data)) return res.status(400).json({ ...messages['006'] })
 
         this.staticDB
-            .updateExcel(id, data)
+            .updateExcelV2(id, data)
             .then((n) => {
                 res.status(200).json({ response: n || null, code: 200 })
             })

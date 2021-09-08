@@ -1,7 +1,7 @@
 export type ExcelProductPoinStatus = 'available' | 'not_available'
 
 export interface ExcelPrice {
-    price: number;
+    price: number | string;
     currency: string;
     product_id: string;
 }
@@ -27,10 +27,4 @@ export interface ExcelModel {
     products: ExcelProduct[]
     created_at?: Date | string;
     updated_at?: Date | string;
-}
-
-export interface ExcelUpdate{
-    product_id: string;
-    name: string;
-    price: number;
 }

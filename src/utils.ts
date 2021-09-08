@@ -1,7 +1,7 @@
 import { reduce } from 'lodash'
-import { isArray, isNumber, isString, objectSize, onerror, sq, truthFul } from 'x-utils-es/umd'
+import { isArray, isString,   onerror, sq, isFalsy } from 'x-utils-es/umd';
 import config from './config'
-import { ENV, Message, ExcelModel, ExcelUpdate } from '@api/interfaces'
+import { ENV, Message, ExcelModel, ExcelPrice } from '@api/interfaces'
 import ObjectId from 'mongo-objectid'
 
 export const listRoutes = (stack: any, appNameRoute: any): Array<{ route: string }> => {
@@ -24,16 +24,32 @@ export const uid = () => {
     return new ObjectId().toString()
 }
 
-/** grap only  {name, price, product_id} */
-export const namePriceProdID = ({ name, price, product_id }): ExcelUpdate | undefined => {
-    const d = { name, price, product_id }
 
-    if (!/^[a-z0-9\s]+$/i.test(name)) return undefined
+/** 
+ * check valid latitude and longitude
+ */
+export const validLatLng = (lat: number | string, lng: number | string) => {
+    const isLatitude = num => isFinite(Number(num)) && Math.abs(Number(num)) <= 90;
+    const isLongitude = num => isFinite(Number(num)) && Math.abs(Number(num)) <= 180;
+    return isLatitude(lat) && isLongitude(lng)
+}
 
-    if (objectSize(truthFul(d)) !== 3) return undefined
-    if (isNaN(Number(price))) return undefined
-    if (!isString(product_id)) return undefined
-    else return d
+
+export const hasSpecialChar = (str)=>{
+    try{
+        return  /[\[\]\\,()?!%$@#~{}=^*_'"<>]/g.test(str)
+    }catch(err){
+        return true
+    }
+   
+}
+
+/** return valud price pair */
+const validPricePair = (pricePair:ExcelPrice):ExcelPrice=>{
+    if( isNaN(Number(pricePair.price)) || (pricePair as any).price ==='') return undefined as any
+    if(!pricePair.currency || !isString(pricePair.currency )) return undefined as any
+    if(!pricePair.product_id || !isString(pricePair.product_id )) return undefined as any
+    else return pricePair
 }
 
 /**
@@ -42,14 +58,31 @@ export const namePriceProdID = ({ name, price, product_id }): ExcelUpdate | unde
 export const excelItem = (inputData: ExcelModel): ExcelModel => {
     const { name, address, city, latitude, longitude, prices, products } = inputData // 7 props
 
-    if (objectSize(truthFul({ name, address, city, latitude, longitude, prices, products })) !== 7) {
+    if ( [name, address, city, latitude, longitude, prices, products].filter(n=>isFalsy(n)).length !== 7) {
         return undefined as any
     }
-    if (!isArray(prices)) return undefined as any
+  
+    let invalidMixed = [name,address,city].filter(n=>hasSpecialChar(n)).length
+    let invalidPrices = prices.filter(n=>!validPricePair(n)).length
+
+    if(invalidMixed) return undefined as any
+    if(invalidPrices || !(prices||[]).length) return undefined as any
     if (!isArray(products)) return undefined as any
-    if (!isNumber(longitude) || !isNumber(latitude)) return undefined as any
+    if(!validLatLng(latitude,longitude)) return undefined as any
     else return inputData
 }
+
+export const excelItemUpdate = (inputData: ExcelModel): ExcelModel => {
+    
+    const { name,  prices } = inputData // 2 props
+
+    if(!name) return undefined as any
+    if(hasSpecialChar(name))  return undefined as any
+    let invalidPrices = prices.filter(n=>!validPricePair(n)).length
+    if(invalidPrices || !(prices ||[]).length) return undefined as any
+    else return inputData
+}
+
 
 /**
  *

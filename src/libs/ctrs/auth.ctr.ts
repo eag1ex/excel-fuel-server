@@ -41,16 +41,15 @@ class ServerAuth {
      *
      */
     async checkCreds(req: Req & { session?: Session }, res: Resp, next: any) {
-        // todo we will add our static token here
+
         let validToken = false
         // check headers first, if not available use the session
         const token = getToken(req.headers) || (req.session || {}).accessToken
         if (token) {
             try {
                 validToken = (await JWTverifyAccess(jwt, req, token)) === 'SESSION_VALID'
-                log('[session][valid] ', token)
             } catch (err) {
-                //
+                // ups
             }
         }
 
@@ -59,6 +58,7 @@ class ServerAuth {
             return res.status(400).json({ ...messages['000'] })
         }
 
+     
         // if session expired or invalid check if asking for user details
         if (!validToken) {
             const auth = req.body || {}
@@ -71,7 +71,7 @@ class ServerAuth {
             }
         }
 
-        attention('[header][authorization][token]', (req.session as any).accessToken)
+        attention('[authorization][token]', token)
         log('[checkCreds][success]')
         return next()
     }
@@ -84,7 +84,7 @@ class ServerAuth {
         res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, token-expiry')
         res.header('Referrer-Policy', 'no-referrer') // for google external assets
-
+        return next()
         return this.checkCreds(req, res, next)
     }
 
