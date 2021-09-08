@@ -1,7 +1,7 @@
 import { reduce } from 'lodash'
-import { isArray, isString,   onerror, sq, isFalsy } from 'x-utils-es/umd';
+import { isArray, isString,   onerror, sq, isFalsy, log } from 'x-utils-es/umd';
 import config from './config'
-import { ENV, Message, ExcelModel, ExcelPrice } from '@api/interfaces'
+import { ENV, Message, ExcelModel, ExcelPrice, ExcelProduct } from '@api/interfaces'
 import ObjectId from 'mongo-objectid'
 
 export const listRoutes = (stack: any, appNameRoute: any): Array<{ route: string }> => {
@@ -52,24 +52,38 @@ const validPricePair = (pricePair:ExcelPrice):ExcelPrice=>{
     else return pricePair
 }
 
+export const validProductPair = (prodPair: ExcelProduct): ExcelProduct => {
+    if (!prodPair) return undefined as any
+    if (!prodPair.product_id) return undefined as any
+    if (prodPair.points.filter((n) => n.id && n.status).length !== prodPair.points.length) return undefined as any
+    else return prodPair
+}
+
+
 /**
  * Sheck input data, only return if all required props are provided
  */
 export const excelItem = (inputData: ExcelModel): ExcelModel => {
     const { name, address, city, latitude, longitude, prices, products } = inputData // 7 props
 
-    if ( [name, address, city, latitude, longitude, prices, products].filter(n=>isFalsy(n)).length !== 7) {
+    if ( [name, address, city, latitude, longitude].filter(n=>!isFalsy(n)).length !== 5) {
         return undefined as any
     }
   
     let invalidMixed = [name,address,city].filter(n=>hasSpecialChar(n)).length
+     // products are optional, so only check if any are set
+    let invalidProds = products.filter(n=>!validProductPair(n)).length
     let invalidPrices = prices.filter(n=>!validPricePair(n)).length
-
+    log({invalidMixed,invalidProds},)
+    log(products)
     if(invalidMixed) return undefined as any
+   
+  
+    if( invalidProds && products.length) return undefined as any
     if(invalidPrices || !(prices||[]).length) return undefined as any
-    if (!isArray(products)) return undefined as any
     if(!validLatLng(latitude,longitude)) return undefined as any
-    else return inputData
+
+    return inputData
 }
 
 export const excelItemUpdate = (inputData: ExcelModel): ExcelModel => {
@@ -79,8 +93,13 @@ export const excelItemUpdate = (inputData: ExcelModel): ExcelModel => {
     if(!name) return undefined as any
     if(hasSpecialChar(name))  return undefined as any
     let invalidPrices = prices.filter(n=>!validPricePair(n)).length
-    if(invalidPrices || !(prices ||[]).length) return undefined as any
-    else return inputData
+  
+     // prices are optional
+    if((prices ||[]).length){
+        if(invalidPrices) return undefined as any
+    }
+
+   return inputData
 }
 
 

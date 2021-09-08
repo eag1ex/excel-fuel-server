@@ -8,6 +8,8 @@ import { ExcelModel, ExcelProduct } from '@api/interfaces'
 import {excelItem, uid, excelItemUpdate } from '../../utils'
 import { copy, log, matched, onerror } from 'x-utils-es/umd'
 import config from '../../config'
+import messages from '../../messages';
+
 interface UserStaticStations {
     [name: string]: ExcelModel[]
 }
@@ -154,7 +156,7 @@ export class StaticDB {
         try {
             // call initialy if for the first time
             await this.excelStations()
-            if (!excelItem(data)) throw new Error('createExcel, invalid {data} provided')
+            if (!excelItem(data)) throw new Error(messages['005'].message)
             else {
                 // check if some details alrady exist
                 let exists = false
@@ -193,49 +195,6 @@ export class StaticDB {
     }
 
     /** search item in staticExcelStations, make update, and only return that item*/
-    // async updateExcel(id: string, data: ExcelUpdate[]): Promise<ExcelModel> {
-
-    //     // 
-
-    //     try {
-    //         await this.excelStations()
-    //         let updatedIndex: any
-
-    //         let updateMulti = (d: ExcelUpdate) => {
-    //             if (!namePriceProdID(d)) throw new Error('updateExcel, Invalid data')
-    //             // call initialy if for the first time
-    //             this.staticExcelStations.forEach((item, inx) => {
-    //                 if (item.id === id) {
-    //                     item.name = d.name
-    //                     // find and update one product price
-    //                     item.prices = (item.prices || []).map((x) => {
-    //                         if (x.product_id === d.product_id) {
-    //                             x.price = Number(d.price)
-    //                         }
-    //                         return x
-    //                     })
-
-    //                     updatedIndex = inx
-    //                     item.updated_at = new Date()
-    //                 }
-    //             })
-    //         }
-  
-    //         data.forEach((d) => {
-    //             updateMulti(d)
-    //         })
-
-    //         if (this.staticExcelStations[updatedIndex]) {
-    //             this.staticExcelStations = this.userStaticExcelStations[this.userName]
-    //             return this.staticExcelStations[updatedIndex]
-    //         } else {
-    //             throw new Error(`Did not update, id:${id} not found`)
-    //         }
-    //     } catch (err) {
-    //         return Promise.reject(err)
-    //     }
-    // }
-
     async updateExcelV2(id: string, data: ExcelModel): Promise<ExcelModel> {
         
 
