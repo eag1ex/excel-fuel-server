@@ -44,7 +44,7 @@ export class StaticDB {
     async excelProducts(): Promise<ExcelProduct[]> {
         if (this.staticExcelProducts) return this.staticExcelProducts
         try {
-            return import('./excel-products.json').then((n) => {
+            return import('./json/excel-products.json').then((n) => {
                 const list: ExcelProduct[] = n.default as any
                 this.staticExcelProducts = list
                 return list
@@ -62,7 +62,7 @@ export class StaticDB {
         // as long its not undefined
         if (this.staticExcelStations) return Promise.resolve(this.staticExcelStations)
         try {
-            return import('./excel-stations.json').then((n) => {
+            return import('./json/excel-stations.json').then((n) => {
                 let list: ExcelModel[] = n.default as any
                 list = list.map((x) => {
                     return {
@@ -130,18 +130,18 @@ export class StaticDB {
 
     /** search item in staticExcelStations, make update, and only return that item*/
     async updateExcelV2(id: string, data: ExcelModel): Promise<ExcelModel> {
-        
+
 
         try {
             await this.excelStations()
             if (!excelItemUpdate(data)) throw new Error('updateExcel, Invalid data')
 
-            const {name,prices} = data
+            const {name, prices} = data
             let updatedIndex: any
             this.staticExcelStations.forEach((item, inx) => {
-                if(item.id===id){
+                if (item.id === id){
                     item.prices = prices
-                    item.name =name
+                    item.name = name
                     updatedIndex = inx
                 }
             })

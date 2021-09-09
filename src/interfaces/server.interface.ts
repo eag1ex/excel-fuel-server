@@ -13,5 +13,5 @@ export type TStaticDB = StaticDB
 type Ses = Partial<SessionData>
 
 export interface Session extends Ses{
-    accessToken?:string
+    accessToken?: string
 }

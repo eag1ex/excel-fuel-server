@@ -25,7 +25,7 @@ export const uid = () => {
 }
 
 
-/** 
+/**
  * check valid latitude and longitude
  */
 export const validLatLng = (lat: number | string, lng: number | string) => {
@@ -36,20 +36,20 @@ export const validLatLng = (lat: number | string, lng: number | string) => {
 }
 
 
-export const hasSpecialChar = (str)=>{
+export const hasSpecialChar = (str) => {
     try{
         return  /[\[\]\\,()?!%$@#~{}=^*_'"<>]/g.test(str)
-    }catch(err){
+    }catch (err){
         return true
     }
-   
+
 }
 
 /** return valud price pair */
-const validPricePair = (pricePair:ExcelPrice):ExcelPrice=>{
-    if( isNaN(Number(pricePair.price)) || (pricePair as any).price ==='') return undefined as any
-    if(!pricePair.currency || !isString(pricePair.currency )) return undefined as any
-    if(!pricePair.product_id || !isString(pricePair.product_id )) return undefined as any
+const validPricePair = (pricePair: ExcelPrice): ExcelPrice => {
+    if ( isNaN(Number(pricePair.price)) || (pricePair as any).price === '') return undefined as any
+    if (!pricePair.currency || !isString(pricePair.currency )) return undefined as any
+    if (!pricePair.product_id || !isString(pricePair.product_id )) return undefined as any
     else return pricePair
 }
 
@@ -67,40 +67,40 @@ export const validProductPair = (prodPair: ExcelProduct): ExcelProduct => {
 export const excelItem = (inputData: ExcelModel): ExcelModel => {
     const { name, address, city, latitude, longitude, prices, products } = inputData // 7 props
 
-    if ( [name, address, city, latitude, longitude].filter(n=>!isFalsy(n)).length !== 5) {
+    if ( [name, address, city, latitude, longitude].filter(n => !isFalsy(n)).length !== 5) {
         return undefined as any
     }
-  
-    let invalidMixed = [name,address,city].filter(n=>hasSpecialChar(n)).length
+
+    const invalidMixed = [name, address, city].filter(n => hasSpecialChar(n)).length
      // products are optional, so only check if any are set
-    let invalidProds = products.filter(n=>!validProductPair(n)).length
-    let invalidPrices = prices.filter(n=>!validPricePair(n)).length
-    log({invalidMixed,invalidProds},)
+    const invalidProds = products.filter(n => !validProductPair(n)).length
+    const invalidPrices = prices.filter(n => !validPricePair(n)).length
+    log({invalidMixed, invalidProds}, )
     log(products)
-    if(invalidMixed) return undefined as any
-   
-  
-    if( invalidProds && products.length) return undefined as any
-    if(invalidPrices || !(prices||[]).length) return undefined as any
-    if(!validLatLng(latitude,longitude)) return undefined as any
+    if (invalidMixed) return undefined as any
+
+
+    if ( invalidProds && products.length) return undefined as any
+    if (invalidPrices || !(prices || []).length) return undefined as any
+    if (!validLatLng(latitude, longitude)) return undefined as any
 
     return inputData
 }
 
 export const excelItemUpdate = (inputData: ExcelModel): ExcelModel => {
-    
+
     const { name,  prices } = inputData // 2 props
 
-    if(!name) return undefined as any
-    if(hasSpecialChar(name))  return undefined as any
-    let invalidPrices = prices.filter(n=>!validPricePair(n)).length
-  
+    if (!name) return undefined as any
+    if (hasSpecialChar(name))  return undefined as any
+    const invalidPrices = prices.filter(n => !validPricePair(n)).length
+
      // prices are optional
-    if((prices ||[]).length){
-        if(invalidPrices) return undefined as any
+    if ((prices || []).length){
+        if (invalidPrices) return undefined as any
     }
 
-   return inputData
+    return inputData
 }
 
 

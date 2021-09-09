@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev:start": "cross-env NODE_ENV=development nodemon -V index",
+    "prod:start": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project .&& node -r esm dist/server",
     "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project .",
-    "prod": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project .&& node -r esm dist/server",
     "start": "cross-env NODE_ENV=production node -r esm dist/server.js",
     "lint:install": "npm i tslint --save-dev",
-    "lint:fix": "./node_modules/.bin/tslint --fix -c tslint.json  src/**/*{.ts}",
+    "lint:fix": "./node_modules/.bin/tslint --fix -c tslint.json  src/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

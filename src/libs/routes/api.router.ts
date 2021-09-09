@@ -23,7 +23,7 @@ export default (staticDB) => {
     apiRouter.get('/excel/delete/:id', apiCtrs.deleteExcel.bind(apiCtrs))
 
     // catch all other routes
-    apiRouter.all('/*', function (req, res) {
+    apiRouter.all('/*', function(req, res) {
         res.status(400).json({ ...messages['001'], error: true })
     })
 

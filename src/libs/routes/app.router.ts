@@ -17,7 +17,7 @@ export default () => {
     appRouter.get('/app', appCtrs.app.bind(appCtrs))
 
     // catch all other routes
-    appRouter.all('/*', function (req, res) {
+    appRouter.all('/*', function(req, res) {
         res.status(400).json({ ...messages['001'], error: true })
     })
 
