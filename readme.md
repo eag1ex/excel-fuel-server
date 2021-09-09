@@ -35,7 +35,7 @@ config settings can be found at `/src/config.ts`
  - includes our user credentials (for demo), and session secret
 
 
-### Running fullstack application from server
+### Running fullstack application 
 1. Generate new client build _(follow excel-fuel-app-client readme.md instructions)_
 2. Add new build to /views, with the same application name: `/views/excel-fuel` 
 3. Run fullstack app in development or production modes at `localhost:5000/app`
@@ -48,6 +48,8 @@ Hosted on heroku node.js server (_server has timeout limit_, free dyno):
 access:
 https://pacific-meadow-55275.herokuapp.com/app
 ```
+
+
 
 #### heroku 
 You will find a separate file for heroku if providing production only version, so need to rename `package.heroku.json` to `package.json` and follow heroku process instructions.
