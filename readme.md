@@ -4,7 +4,7 @@ This is an express.js server for Excel Fuel _(project)_ build in `Typescript` wi
 Features:
 
     - Express.js
-    - Separation concerts
+    - Separation of concerns
     - Typescript with models
     - Production ready
     - Linted
