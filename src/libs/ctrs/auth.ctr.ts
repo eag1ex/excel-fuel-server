@@ -1,4 +1,3 @@
-
 /**
  * @description ServerAuth extension
  */
@@ -42,7 +41,7 @@ export default class ServerAuth {
      *
      */
     async checkCreds(req: Req & { session?: Session }, res: Resp, next: any) {
-
+        const auth = req.body || {}
         let validToken = false
         // check headers first, if not available use the session
         const token = getToken(req.headers) || (req.session || {}).accessToken
@@ -55,17 +54,22 @@ export default class ServerAuth {
         }
 
         // only accept form credentials for POST requests
-        if (!validToken && req.method !== 'POST'){
+        if (!validToken && req.method !== 'POST') {
             return res.status(400).json({ ...messages['000'] })
         }
 
+        // wrong combination, /api/auth route with Authorization headers without credentials
+        if (req.method === 'POST' && ['/auth', '/api/auth'].indexOf(req.url) !== -1) {
+            const withCreds = [auth.username, auth.password].filter((n) => !!n).length
+            if (withCreds !== 2) {
+                return res.status(400).json({ ...messages['010'] })
+            }
+        }
 
         // if session expired or invalid check if asking for user details
         if (!validToken) {
-            const auth = req.body || {}
             if (!validCreds({ username: auth.username, password: auth.password })) {
                 return res.status(400).json({ ...messages['000'] })
-
             } else {
                 // credentials are correnct make new session
                 this.makeSession(req)
@@ -78,7 +82,6 @@ export default class ServerAuth {
     }
 
     async authNext(req: Req, res: Resp, next: any) {
-
         res.header('Access-Control-Allow-Origin', '*')
         res.header('Access-Control-Allow-Methods', 'GET')
         res.header('Access-Control-Allow-Methods', 'POST')
@@ -93,5 +96,3 @@ export default class ServerAuth {
         this.expressApp.use(this.routeName, this.authNext.bind(this))
     }
 }
-
-

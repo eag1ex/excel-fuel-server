@@ -26,6 +26,7 @@ messages.msg = onMessages({
     '007': ['Invalid input provided', '007'], // updateExcel
     '008': ['Problem deteting item', '008'], // deleteExcel
     '009': ['Problem finding item', '009'], // exelItem
+    '010': ['No credentials', '010'],
 })
 
 export default messages.msg as Message

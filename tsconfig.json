@@ -15,6 +15,7 @@
         "strict": true,
         "baseUrl":"./",
         "sourceMap": false,
+
         "typeRoots": [
             "node_modules/@types"
         ],
