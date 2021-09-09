@@ -13,7 +13,9 @@ Features:
 
 
 ### Install
+
 Application is fixed to `node@12.0.0` and `npm@6.9.0`, so install `nvm` manager when required.
+- Required global installations: `nodemon`,`typescript (tsc)`, and `esm` 
 
 ```sh
 $/ npm install
@@ -54,7 +56,6 @@ https://pacific-meadow-55275.herokuapp.com/app
 ```
 
 
-
 #### heroku 
 You will find a separate file for heroku if providing production only version, so need to rename `package.heroku.json` to `package.json` and follow heroku process instructions.
 
@@ -65,9 +66,6 @@ Excel fuel angular app can be found at:
 ```sh
 /$ git clone https://eag1ex@bitbucket.org/eag1ex/excel-fuel-app-client.git
 ```
-
-### Install
-Required global installations: `nodemon`,`typescript (tsc)`, and `esm`
 
 
 ### Available API routes:
