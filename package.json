@@ -2,10 +2,10 @@
   "name": "excel-fuel-server-ts",
   "version": "1.0.0",
   "description": "Excel Fuel server (typescript)",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "private":true,
   "author": "eaglex.net",
