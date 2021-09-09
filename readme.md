@@ -15,6 +15,7 @@ Features:
 ### Install
 
 Application is fixed to `node@12.0.0` and `npm@6.9.0`, so install `nvm` manager when required.
+
 - Required global installations: `nodemon`,`typescript (tsc)`, and `esm` 
 
 ```sh
