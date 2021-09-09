@@ -10,14 +10,14 @@ export default () => {
     const appCtrs = new AppController()
 
     appRouter.use(function timeLog(req, res, next) {
-        log('Time: ', Date.now())
+        log('App Time: ', Date.now())
         next()
     })
 
-    appRouter.get('/app', appCtrs.app.bind(appCtrs))
+    appRouter.get('/*', appCtrs.app.bind(appCtrs))
 
-    // catch all other routes
-    appRouter.all('/*', function(req, res) {
+    // catch all other route methods
+    appRouter.all('*', function(req, res) {
         res.status(400).json({ ...messages['001'], error: true })
     })
 

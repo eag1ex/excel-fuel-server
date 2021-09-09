@@ -8,16 +8,14 @@ export default class AppController {
     constructor() {}
 
     /**
-     * (GET) /app/
-     * - this will go thru AppUseAuth pre/process
-     * - body: {username,password} << using hardcoded credentials
-     * returns valid {token}
+     * (GET) /*
+     * Serving our app from this route
      */
     app(req: Req, res: Resp, next) {
         const asset = ['.jpg', '.png', '.ico', '.json', '.js', '.css', '.txt', '.map'].filter((n) => {
             return n.indexOf(req.url) !== -1
         }).length
         if (asset) return next()
-        else return res.render('../excelApp/index')
+        else return res.render('../excel-fuel/index')
     }
 }

@@ -34,7 +34,7 @@ export default class ApiController {
                 res.status(200).json({ response: n || [], code: 200 })
             })
             .catch((err) => {
-                onerror(err)
+                onerror('[excelStations]', err.toString())
                 res.status(400).json({ ...messages['002'] })
             })
     }
@@ -51,7 +51,7 @@ export default class ApiController {
                 res.status(200).json({ response: n || [], code: 200 })
             })
             .catch((err) => {
-                onerror(err)
+                onerror('[excelProducts]', err.toString())
                 res.status(400).json({ ...messages['002'] })
             })
     }
@@ -75,7 +75,7 @@ export default class ApiController {
                 res.status(200).json({ response: n || null, code: 200 })
             })
             .catch((err) => {
-                onerror(err)
+                onerror('[createExcel]', err.toString())
                 res.status(400).json({ code: '005', message: err.toString() })
             })
     }
@@ -98,7 +98,7 @@ export default class ApiController {
                 res.status(200).json({ response: n || null, code: 200 })
             })
             .catch((err) => {
-                onerror(err)
+                onerror('[updateExcel]', err.toString())
                 res.status(400).json({ ...messages['007'] })
             })
     }
@@ -116,7 +116,7 @@ export default class ApiController {
                 res.status(200).json({ response: n || [], code: 200 })
             })
             .catch((err) => {
-                onerror(err)
+                onerror('[deleteExcel]', err.toString())
                 res.status(400).json({ ...messages['008'] })
             })
     }

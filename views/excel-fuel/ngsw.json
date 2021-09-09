@@ -1,0 +1,117 @@
+{
+  "configVersion": 1,
+  "timestamp": 1631179636048,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "pl",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/5.d057ea715397e278dc06.js",
+        "/6.7074fcc1fd33fbdb76e7.js",
+        "/7.85f64de467c7ab97c76c.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.3aace6615bc3300f7dc6.js",
+        "/polyfills.326ea43dd5830ec91a02.js",
+        "/project-excel.3604a7c84939a2b37d84.css",
+        "/runtime.b9ccabe6682a2c2735aa.js",
+        "/theme-excel.bfd2c0cb98fabbd81284.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/layers-2x.8f2c4d11474275fbc161.png",
+        "/layers.416d91365b44e4b4f477.png",
+        "/marker-icon.2b3e1faf89f94a483539.png",
+        "/muli-bold-webfont.7fa5778e8bbf25e59013.woff2",
+        "/muli-bold-webfont.a08e57fab39417ea2615.woff",
+        "/muli-bolditalic-webfont.299994a64a001f41b9a4.woff2",
+        "/muli-bolditalic-webfont.8fdcbe9a9d95387d2d1a.woff",
+        "/muli-extralight-webfont.595d10a8aff6ea20e393.woff2",
+        "/muli-extralight-webfont.71a574d71c2714017bd6.woff",
+        "/muli-extralightitalic-webfont.73b88df71ab4b7cfdcd4.woff2",
+        "/muli-extralightitalic-webfont.90410e15ad41e19243b3.woff",
+        "/muli-italic-webfont.eae0b252fb7d32fc5dee.woff2",
+        "/muli-italic-webfont.f605bdcb395b434c6b2e.woff",
+        "/muli-light-webfont.81a77796fc0fd8929a96.woff",
+        "/muli-light-webfont.c0ff7456655da29b5995.woff2",
+        "/muli-lightitalic-webfont.baa81667781179f2bc02.woff2",
+        "/muli-lightitalic-webfont.de55b5a13a4271d6a8a8.woff",
+        "/muli-semi-bolditalic-webfont.1c66c6c1410cb2bdf412.woff",
+        "/muli-semi-bolditalic-webfont.201957e70b1a728ddf16.woff2",
+        "/muli-semibold-webfont.0e424a811892fff4b5d0.woff",
+        "/muli-semibold-webfont.b445c3309438c3b55898.woff2",
+        "/muli-webfont.1805a4e1260751e0cec5.woff",
+        "/muli-webfont.794dcf7cdb4fe19051dc.woff2"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/5.d057ea715397e278dc06.js": "bb231ac0c1c6af875e763bfa195f5e5e77d54437",
+    "/6.7074fcc1fd33fbdb76e7.js": "06dc04b4918ab8a7658a1c409ac717bd935eb7ab",
+    "/7.85f64de467c7ab97c76c.js": "563637329fbc1ccb72046e0b2d58c4705d610620",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "f6ba89c8d1bf7e89f10c558f809bcd4a2c8c44c5",
+    "/layers-2x.8f2c4d11474275fbc161.png": "152a162333e46d24f9d89f566312fc0c64011dee",
+    "/layers.416d91365b44e4b4f477.png": "c9e7528e491a39232ba24a2706c6c739d6fb0f06",
+    "/main.3aace6615bc3300f7dc6.js": "987fcc16fa631e310731455ef04210b794bf609c",
+    "/marker-icon.2b3e1faf89f94a483539.png": "60a90bcbb2b42b7ddb4556db94eb7c1084b0e5da",
+    "/muli-bold-webfont.7fa5778e8bbf25e59013.woff2": "15c20e3fc25237a1e5c501ab37469fe269153fbd",
+    "/muli-bold-webfont.a08e57fab39417ea2615.woff": "0052c4a0974afcea258b3f1c9cf6cb10e7eb9f8f",
+    "/muli-bolditalic-webfont.299994a64a001f41b9a4.woff2": "797347d0657d06646a8f598230fc7662016fab71",
+    "/muli-bolditalic-webfont.8fdcbe9a9d95387d2d1a.woff": "ae679cf7c67eda386f934b29c73965e5b1fce982",
+    "/muli-extralight-webfont.595d10a8aff6ea20e393.woff2": "8ab85c3ae479ecc8f5290c6735b339f4ee24153a",
+    "/muli-extralight-webfont.71a574d71c2714017bd6.woff": "ac80527766b15ce1970c870ce4aa6a7ea7ff85ef",
+    "/muli-extralightitalic-webfont.73b88df71ab4b7cfdcd4.woff2": "523b087ca6de6a4b11a23e378c6edf7b12049300",
+    "/muli-extralightitalic-webfont.90410e15ad41e19243b3.woff": "70b4371a70dcd4862a2cda4bf64423f005170f98",
+    "/muli-italic-webfont.eae0b252fb7d32fc5dee.woff2": "4f61ee2c5fab45f537fa8a338190a43806830026",
+    "/muli-italic-webfont.f605bdcb395b434c6b2e.woff": "1cac720824d4cb5131980051f594960b51b6da69",
+    "/muli-light-webfont.81a77796fc0fd8929a96.woff": "0bdf10a1c86166bc322249a4f2e3a35c0b01f680",
+    "/muli-light-webfont.c0ff7456655da29b5995.woff2": "ec6f7c4f35b9505857c5ec2019f3177c2e06aba7",
+    "/muli-lightitalic-webfont.baa81667781179f2bc02.woff2": "546db2734f1624bb2b01e990928d5bef27092bc9",
+    "/muli-lightitalic-webfont.de55b5a13a4271d6a8a8.woff": "efef7d510275275bbcc2a8f98b250eaace665479",
+    "/muli-semi-bolditalic-webfont.1c66c6c1410cb2bdf412.woff": "5dafddc1c5e9b78952639686175563ae8bdb11e8",
+    "/muli-semi-bolditalic-webfont.201957e70b1a728ddf16.woff2": "88961bc47f11e8a40afa5e880f8d3028c83b0b50",
+    "/muli-semibold-webfont.0e424a811892fff4b5d0.woff": "54487d7aa6cadb8f67642a58f40bb3ce2cb295b8",
+    "/muli-semibold-webfont.b445c3309438c3b55898.woff2": "1e6c9e0cf457f0ed95a52934df3582f4ccc57f8e",
+    "/muli-webfont.1805a4e1260751e0cec5.woff": "8b905bad9dee76de08601e079b56b31e2d53af4e",
+    "/muli-webfont.794dcf7cdb4fe19051dc.woff2": "f633dbbde2ca967461c07fe802af032c526c1e84",
+    "/polyfills.326ea43dd5830ec91a02.js": "cc8f7ccbb1286b277b71966a00ab6b0763f7c5e0",
+    "/project-excel.3604a7c84939a2b37d84.css": "aa3ab82cd2d9a573c5b9e217819e0addc867ba28",
+    "/runtime.b9ccabe6682a2c2735aa.js": "bcd285d160a8e5cd9f32b362c426eb3d15741dd1",
+    "/theme-excel.bfd2c0cb98fabbd81284.css": "780c3864996234f9240fc66dfbc6c205c6c729da"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

@@ -1,4 +1,3 @@
-
 import config from './config'
 import session from './express-sess'
 import { env, listRoutes } from './utils'
@@ -18,24 +17,24 @@ import { StaticDB } from './libs/StaticDB'
 const init = () => {
     const app = express()
 
-    app.set('trust proxy', 1) // trust first proxy
+    app.set('trust proxy', 1) // trust  proxy
     app.use(morgan('dev'))
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(bodyParser.json())
     app.use(cors())
 
     app.engine('html', (ejs as any).__express) // ejs.renderFile
-    app.set('view engine', 'html') // if we want to set default file extention, for example: .html, .md
+    app.set('view engine', 'html') // default file extention: .html
     app.set('views', config.viewsDir)
-    app.set('views', path.join(config.viewsDir, 'excelApp'))
+    app.set('views', path.join(config.viewsDir, 'excel-fuel'))
     // static mappings
-    app.use('/app/', express.static(path.join(config.viewsDir, './excelApp')))
+    app.use( express.static(path.join(config.viewsDir, './excel-fuel')))
+    app.use('/app/', express.static(path.join(config.viewsDir, './excel-fuel')))
 
     session(app)
 
-
-     // NOTE assing auth only to /api/* routes
-     // ----- load authentication
+    // NOTE assing auth only to /api/* routes
+    // ----- load authentication
     try {
         const auth = new Authentication(app, '/api')
         auth.AppUseAuth()
@@ -55,7 +54,6 @@ const init = () => {
     } catch (err) {
         onerror('[apiRoutes]', err)
     }
-
 
     // ----- load  /app routes
     let excelApp

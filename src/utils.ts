@@ -75,10 +75,8 @@ export const excelItem = (inputData: ExcelModel): ExcelModel => {
      // products are optional, so only check if any are set
     const invalidProds = products.filter(n => !validProductPair(n)).length
     const invalidPrices = prices.filter(n => !validPricePair(n)).length
-    log({invalidMixed, invalidProds}, )
-    log(products)
-    if (invalidMixed) return undefined as any
 
+    if (invalidMixed) return undefined as any
 
     if ( invalidProds && products.length) return undefined as any
     if (invalidPrices || !(prices || []).length) return undefined as any

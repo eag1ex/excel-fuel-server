@@ -21,9 +21,9 @@ messages.msg = onMessages({
     '002': ['Problem with excel list', '002'],
     '003': ['No data provided', '003'], // createExcel
     '004': ['Problem creating new item', '004'], // createExcel
-    '005': ['Station not created, invalid input', '004'], // createExcel
+    '005': ['Invalid inputs: Name, Address, City, Price, or latitude/longitude', '004'], // createExcel
     '006': ['No data provided to update', '006'], // updateExcel
-    '007': ['Invalid input provided', '007'], // updateExcel
+    '007': ['Invalid inputs: Name, Price', '007'], // updateExcel
     '008': ['Problem deteting item', '008'], // deleteExcel
     '009': ['Problem finding item', '009'], // exelItem
     '010': ['No credentials', '010'],
