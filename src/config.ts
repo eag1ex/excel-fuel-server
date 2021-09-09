@@ -10,7 +10,7 @@ export default {
     /** changing secret will void last session */
     secret: 'r456thy67534987854998508we',
     // NOTE {MY_APP} is a custom var set on heroku to distinguish between environments
-    HOST: process.env.MY_APP === 'dbName' ? '' : `http://localhost:${port}`,
+    HOST: process.env.EXCEL_APP === '1' ? 'https://pacific-meadow-55275.herokuapp.com/' : `http://localhost:${port}`,
 
     /** static files location */
     viewsDir: path.join(__dirname, '../views'),

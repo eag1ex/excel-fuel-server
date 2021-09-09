@@ -148,5 +148,7 @@ export const JWTverifyAccess = (jwt: any, req: any, token: any): Promise<boolean
 export const validCreds = ({ username, password }): boolean => username === config.staticDB.username && password === config.staticDB.password
 
 export const env = (): ENV => {
-    return process.env.NODE_ENV as any
+    // heroku setting
+    if (process.env.EXCEL_APP === '1') return 'production'
+    else return process.env.NODE_ENV as any
 }

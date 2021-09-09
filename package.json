@@ -1,19 +1,25 @@
 {
   "name": "excel-fuel-server-ts",
   "version": "1.0.0",
-  "description": "",
+  "description": "Excel Fuel server (typescript)",
   "main": "index.js",
   "scripts": {
     "dev:start": "cross-env NODE_ENV=development nodemon -V index",
-    "prod:start": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project .&& node -r esm dist/server",
+    "prod:start": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project . && node -r esm dist/server",
     "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project .",
     "start": "cross-env NODE_ENV=production node -r esm dist/server.js",
     "lint:install": "npm i tslint --save-dev",
     "lint:fix": "./node_modules/.bin/tslint --exclude src/libs/StaticDB/json/* --fix -c tslint.json src/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "private":true,
+  "author": "eaglex.net",
+  "license": "CC BY-NC-ND 2.0",
+  "engineStrict": true,
+  "engines": {
+    "node": "~12.0.0",
+    "npm": "~6.9.0"
+  },
   "dependencies": {
     "base-64": "^1.0.0",
     "body-parser": "^1.19.0",
