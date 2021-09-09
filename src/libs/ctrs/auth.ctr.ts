@@ -13,12 +13,13 @@ import { attention, log } from 'x-utils-es/umd'
 import messages from '../../messages'
 // const ENV = config.env
 
-class ServerAuth {
+export default class ServerAuth {
     debug = config.debug
-    expressApp: any
-
-    constructor(expressApp: Express) {
+    expressApp: Express
+    routeName: string
+    constructor(expressApp: Express, routeName: string = '/api') {
         this.expressApp = expressApp
+        this.routeName = routeName
     }
 
     /**
@@ -58,7 +59,7 @@ class ServerAuth {
             return res.status(400).json({ ...messages['000'] })
         }
 
-     
+
         // if session expired or invalid check if asking for user details
         if (!validToken) {
             const auth = req.body || {}
@@ -89,10 +90,8 @@ class ServerAuth {
     }
 
     AppUseAuth() {
-        this.expressApp.use(this.authNext.bind(this))
+        this.expressApp.use(this.routeName, this.authNext.bind(this))
     }
 }
 
-export default (expressApp) => {
-    return new ServerAuth(expressApp)
-}
+

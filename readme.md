@@ -17,9 +17,6 @@ Required global instalations: `nodemon`,`typescript (tsc)`, and `esm`
 ## Get all available Excel products from StaticDB
 # (GET) http://localhost:5000/api/excel/products
 
-## Get one excel station by {id}
-# (GET) http://localhost:5000/api/excel/item/:id 
-
 ## Create new excel station, providing {ExcelModel}, excluding {created_at,updated_at,id}
 ## Checks for same latitude/longitude, or address/city
 # (POST) http://localhost:5000/api/excel/create/
@@ -67,9 +64,6 @@ http://localhost:5000/api/excel/update/61335ac2faf7da2be5d966db
 ### (GET) delete one item by {id}
 http://localhost:5000/api/excel/delete/61335ac2faf7da2be5d966db 
 
-
-### (GET) Get one item by {id}
-http://localhost:5000/api/excel/item/61335ac2faf7da2be5d966db 
 
 
 ```

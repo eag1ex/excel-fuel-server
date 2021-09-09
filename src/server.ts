@@ -2,7 +2,7 @@ import config from './config'
 import session from './express-sess'
 import { env, listRoutes } from './utils'
 import messages from './messages'
-import fs from 'fs'
+import path from 'path'
 import { attention, log, onerror } from 'x-utils-es/umd'
 import express from 'express'
 import morgan from 'morgan'
@@ -11,7 +11,9 @@ import cors from 'cors'
 import ejs from 'ejs'
 import Authentication from './libs/ctrs/auth.ctr'
 import apiRouter from './libs/routes/api.router'
+import appRouter from './libs/routes/app.router'
 import { StaticDB } from './libs/StaticDB'
+
 const init = () => {
     const app = express()
 
@@ -24,17 +26,17 @@ const init = () => {
     app.engine('html', (ejs as any).__express) // ejs.renderFile
     app.set('view engine', 'html') // if we want to set default file extention, for example: .html, .md
     app.set('views', config.viewsDir)
-    // app.set('views', path.join(config.viewsDir, 'admin'))
-    // static routes
-    // app.use('/login/', express.static(path.join(config.viewsDir, './admin')))
-    // app.use('/user/', express.static(path.join(config.viewsDir, './user-app')))
-    // save logged in session and manage expiry
+    app.set('views', path.join(config.viewsDir, 'excelApp'))
+    // static mappings
+    app.use('/app/', express.static(path.join(config.viewsDir, './excelApp')))
 
     session(app)
 
-    // ----- load authentication
+
+     // NOTE assing auth only to /api/* routes
+     // ----- load authentication
     try {
-        const auth = Authentication(app)
+        const auth = new Authentication(app, '/api')
         auth.AppUseAuth()
     } catch (err) {
         onerror('[ServerAuth]', err)
@@ -44,13 +46,23 @@ const init = () => {
     // init static db
     const staticDB = new StaticDB()
 
-    // ----- load our app routes
-    let api
+    // ----- load  /api routes
+    let apiRoutes
     try {
-        api = apiRouter(staticDB)
-        app.use('/api', api)
+        apiRoutes = apiRouter(staticDB)
+        app.use('/api', apiRoutes)
     } catch (err) {
-        onerror('[api]', err)
+        onerror('[apiRoutes]', err)
+    }
+
+
+    // ----- load  /app routes
+    let excelApp
+    try {
+        excelApp = appRouter()
+        app.use('/app', excelApp)
+    } catch (err) {
+        onerror('[excelApp]', err)
     }
 
     app.get('/', function(req, res) {
@@ -58,7 +70,7 @@ const init = () => {
     })
 
     app.use('/welcome', function(req, res) {
-        return res.status(200).json({ success: true, message: 'works fine', url: req.url, available_routes: listRoutes(api.stack, '/api'), status: 200 })
+        return res.status(200).json({ success: true, message: 'works fine', url: req.url, available_routes: listRoutes(apiRoutes.stack, '/api'), status: 200 })
     })
 
     // catch all other routes
@@ -75,12 +87,9 @@ const init = () => {
 
     // Initialize server
     const server = app.listen(config.port, function() {
-        // @ts-ignore
-       // const host = (server.address().address || '').replace(/::/, 'localhost')
-        // @ts-ignore
-       // const port = server.address().port
         attention(`server running on ${config.HOST}`)
-        attention('api routes: ', listRoutes(api.stack, '/api'))
+        attention('/api routes: ', listRoutes(apiRoutes.stack, '/api'))
+        attention('/excelApp routes: ', listRoutes(excelApp.stack, '/app'))
         attention(`environment: ${env()}`)
     })
 

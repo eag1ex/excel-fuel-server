@@ -80,72 +80,6 @@ export class StaticDB {
         }
     }
 
-    /** return all excel stations that match by {product_id[]} */
-    // async excelStationsByProdID(product_ids: Array<string | number>): Promise<ExcelModel[]> {
-    //     try {
-    //         if (!(product_ids || []).length) throw new Error(`excelStationsByProdID {product_ids} not set`)
-    //         // call initialy if for the first time
-    //         product_ids = [].concat(product_ids as any)
-    //         product_ids = product_ids.filter((n) => !!n)
-    //         await this.excelStations()
-    //         const o: any[] = [] // << output
-    //         const found = (prod_ids: any[], item) => (item.products || []).filter((x) => prod_ids.filter((y) => x.product_id === y).length).length
-
-    //         for (const item of this.staticExcelStations) {
-    //             if (found(product_ids, item)) {
-    //                 o.push(item)
-    //             }
-    //         }
-
-    //         if (!o.length) return []
-    //         else return o
-    //     } catch (err) {
-    //         return Promise.reject(err)
-    //     }
-    // }
-
-    /** return excel item by {product_id}  */
-    // async excelItemByProdID(id: string, product_id: string): Promise<ExcelModel> {
-    //     try {
-    //         if (!product_id || !id) throw new Error(`excelItemByProdID {product_id}, or {id} not set`)
-    //         // call initialy if for the first time
-    //         await this.excelStations()
-    //         let o // << output
-    //         const found = (prod_id, item) => (item.products || []).filter((n) => n.product_id === prod_id).length
-
-    //         for (const item of this.staticExcelStations) {
-    //             if (item.id === id) {
-    //                 if (found(product_id, item)) {
-    //                     o = item
-    //                 }
-    //                 break
-    //             }
-    //         }
-    //         return o
-    //     } catch (err) {
-    //         return Promise.reject(err)
-    //     }
-    // }
-
-    /** return excel item by {id}  */
-    async excelItem(id: string): Promise<ExcelModel> {
-        try {
-            if (!id) throw new Error(`excelItem {id} not set`)
-            // call initialy if for the first time
-            await this.excelStations()
-            let o // << output
-            for (const item of this.staticExcelStations) {
-                if (item.id === id) {
-                    o = item
-                    break
-                }
-            }
-            if (!o) throw new Error(`Item with id:${id} not found`)
-            else return o
-        } catch (err) {
-            return Promise.reject(err)
-        }
-    }
 
     /**
      *   Add new excel item to staticExcelStations, all fields are required except for: {created_at,updated_at,id}
@@ -256,17 +190,3 @@ export class StaticDB {
     }
 }
 
-/**
- * NOTE new test examples
- * uncomment each line for testing
- * to createExcel must provide dummy data
- *
- * */
-// const staticDB = new StaticDB()
-// staticDB.excelItem('61335ac2faf7da2be5d966db').then(console.log).catch(console.error)
-// staticDB.excelItemByProdID('61335ac2faf7da2be5d966db', 'DIESEL').then(console.log).catch(console.error)
-// staticDB.excelStationsByProdID(['DIESEL', 'BENZIN']).then(console.log).catch(console.error)
-// staticDB.updateExcel('61335ac2faf7da2be5d966db', [{name: 'Migrol Tankstelle (alt)', price: 0, product_id: 'DIESEL'}]).then(console.log).catch(console.error)
-// staticDB.deleteExcel(['61335ac2faf7da2be5d966db','61335ac2faf7da2be5a0dad3']).then(console.log).catch(console.error)
-// staticDB.createExcel(dummydata).then(console.log).catch(console.error)
-// staticDB.excelStations().then(console.log).catch(console.error)

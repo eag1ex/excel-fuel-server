@@ -1,5 +1,5 @@
 import { reduce } from 'lodash'
-import { isArray, isString,   onerror, sq, isFalsy, log } from 'x-utils-es/umd';
+import {  isString,   onerror, sq, isFalsy, log } from 'x-utils-es/umd';
 import config from './config'
 import { ENV, Message, ExcelModel, ExcelPrice, ExcelProduct } from '@api/interfaces'
 import ObjectId from 'mongo-objectid'
@@ -29,6 +29,7 @@ export const uid = () => {
  * check valid latitude and longitude
  */
 export const validLatLng = (lat: number | string, lng: number | string) => {
+
     const isLatitude = num => isFinite(Number(num)) && Math.abs(Number(num)) <= 90;
     const isLongitude = num => isFinite(Number(num)) && Math.abs(Number(num)) <= 180;
     return isLatitude(lat) && isLongitude(lng)

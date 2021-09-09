@@ -2,7 +2,7 @@
     "compilerOptions": {
         "noImplicitAny": false,
         "resolveJsonModule":true,
-        "target": "ESNext",
+        "target": "ES5",
         "esModuleInterop":true,
         "allowSyntheticDefaultImports":true,
         "downlevelIteration": true,
