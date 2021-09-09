@@ -1,0 +1,135 @@
+//@import './colors';
+@mixin box-shadow($top: 0, $left: 0, $blur: 0, $size: 0, $color: rgba(0, 0, 0.2)) {
+    -webkit-box-shadow: $top $left $blur $size $color !important;
+    -moz-box-shadow: $top $left $blur $size $color !important;
+    box-shadow: $top $left $blur $size $color !important;
+}
+
+@mixin icons-preset() {
+    vertical-align: middle;
+    height: auto;
+    max-width: 40px;
+    align-self: center !important;
+}
+
+// for some reason missing from v5.1 ??
+@mixin bootstrap-missing() {
+    .alert-success {
+        color: #0f5132;
+        background-color: #d1e7dd;
+        border-color: #badbcc;
+    }
+}
+
+@mixin typography() {
+    .lh-1 {
+        line-height: 0.25em;
+    }
+    .lh-2 {
+        line-height: 0.5em;
+    }
+    .lh-3 {
+        line-height: 0.75em;
+    }
+    .lh-4 {
+        line-height: 1em;
+    }
+    .lh-5 {
+        line-height: 1.25em;
+    }
+
+    .bold,
+    .strong {
+        font-family: 'mulibold' !important;
+        font-weight: normal;
+    }
+
+    .light-weigth {
+        font-family: 'muliextralight' !important;
+        font-weight: normal;
+    }
+
+    .italic {
+        font-family: 'muliregularitalic' !important;
+        font-weight: normal;
+    }
+
+    h1 {
+        font-size: 2.25em !important;
+    }
+
+    h2 {
+        font-size: 1.75em !important;
+    }
+
+    h3 {
+        font-size: 1.25em !important;
+    }
+
+    .smaller {
+        font-size: smaller !important;
+    }
+
+    .uppercase {
+        text-transform: uppercase;
+    }
+
+    .lowercase {
+        text-transform: lowercase;
+    }
+}
+
+@mixin mat-form-field-reset() {
+    mat-form-field {
+        .mat-form-field-infix {
+            border-top: 0 !important;
+        }
+        &.reset-width {
+            .mat-form-field-infix {
+                width: inherit !important;
+            }
+        }
+    }
+}
+
+/** provide some resets to native elements */
+@mixin resets() {
+    @include mat-form-field-reset();
+
+    .border-none {
+        border: none !important;
+    }
+
+    // input:disabled {
+    //     border-style: dotted !important;
+    // }
+}
+
+@mixin cdk-overlay-container() {
+    // increas index so it sits above the leaflet map
+    .cdk-overlay-container {
+        z-index: 10000 !important;
+    }
+}
+
+@mixin leaflet-map() {
+    lib-leaflet {
+        #map {
+            .leaflet-popup {
+                .leaflet-popup-content {
+                    margin: 0.25rem 1.25rem 0.25rem 0.2rem;
+                }
+            }
+        }
+        // #map {
+        //     .leaflet-marker-pane {
+        //         img[src*='baseline_article_black_24dp.png'] {
+        //             @include box-shadow(/*$top*/ 4px, /*$left:*/ 8px, /*$blur:*/ 5px, /* $size:*/ -1px, /*$color:*/ rgba(0, 0, 0, 0.4));
+        //         }
+        //         img[src*='local_gas_station_yellow_24dp.svg'] {
+        //             @include box-shadow(/*$top*/ 3px, /*$left:*/ 4px, /*$blur:*/ 5px, /* $size:*/ -1px, /*$color:*/ rgba(0, 0, 0, 0.35));
+        //         }
+        //     }
+        // }
+    }
+}

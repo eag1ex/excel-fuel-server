@@ -1,0 +1,34 @@
+/* stylelint-disable */
+
+$font-family: 'muliregular', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+
+$white: #f0f0f0;
+$body-bg: $white;
+$body-color: $black;
+
+// scss-docs-start theme-color-variables
+$muted: $gray;
+$primary: $black;
+$secondary: $blue;
+//$success: $green;
+$info: $blue;
+$warning: $yellow;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-900;
+
+$theme-colors: (
+    'white': $white,
+    'primary': $primary,
+    'secondary': $secondary,
+    //'success': $success,
+    //'info': $green,
+    'warning': $warning,
+    'danger': $red,
+    'light': $light,
+    'dark': $dark,
+    'muted': $muted,
+    'alert': $yellow,
+);
+
+$default-border-radius: 2px;

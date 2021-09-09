@@ -1,0 +1,107 @@
+//  NOTE this theme is specific to version: 11.2
+@import '~@angular/material/theming';
+
+/* Color Preset */
+$md-primary: (
+    400: $primary,
+    500: $primary,
+    600: $primary,
+    contrast: (
+        400: #fff,
+        500: #fff,
+        600: #fff,
+    ),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-accent: (
+    50: #e3eff2,
+    100: #b9d6e0,
+    200: #8bbbcb,
+    300: #5d9fb6,
+    400: #3a8ba6,
+    500: #177696,
+    600: #146e8e,
+    700: #116383,
+    800: #0d5979,
+    900: #074668,
+    A100: #99d7ff,
+    A200: #66c3ff,
+    A400: #33aeff,
+    A700: #1aa4ff,
+    contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #000000,
+        400: #ffffff,
+        500: #ffffff,
+        600: #ffffff,
+        700: #ffffff,
+        800: #ffffff,
+        900: #ffffff,
+        A100: #000000,
+        A200: #000000,
+        A400: #000000,
+        A700: #000000,
+    ),
+);
+
+$md-warn: (
+    50: #fbfae3,
+    100: #f4f2b9,
+    200: #edea8b,
+    300: #e6e25c,
+    400: #e0db39,
+    500: #dbd516,
+    600: #d7d013,
+    700: #d2ca10,
+    800: #cdc40c,
+    900: #c4ba06,
+    A100: #fffeed,
+    A200: #fffbba,
+    A400: #fff887,
+    A700: #fff66e,
+    contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #000000,
+        400: #000000,
+        500: #000000,
+        600: #000000,
+        700: #000000,
+        800: #000000,
+        900: #000000,
+        A100: #000000,
+        A200: #000000,
+        A400: #000000,
+        A700: #000000,
+    ),
+);
+
+@include mat-core();
+/* Typography */
+$custom-typography: mat-typography-config(
+    $font-family: $font-family,
+);
+
+//$md-primary => default, lighter, and darker
+$custom-theme-primary: mat-palette($md-primary, 400, 500, 600);
+$custom-theme-accent: mat-palette($md-accent, 800, A700);
+$custom-theme-warn: mat-palette($md-warn, 900, 300, A700);
+$custom-theme: mat-light-theme(
+    (
+        color: (
+            primary: $custom-theme-primary,
+            accent: $custom-theme-accent,
+            warn: $custom-theme-warn,
+        ),
+    )
+);
+@include mat-base-typography($custom-typography);
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+@include angular-material-theme($custom-theme);

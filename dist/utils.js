@@ -146,6 +146,9 @@ var validCreds = function (_a) {
 };
 exports.validCreds = validCreds;
 var env = function () {
-    return process.env.NODE_ENV;
+    if (process.env.EXCEL_APP === '1')
+        return 'production';
+    else
+        return process.env.NODE_ENV;
 };
 exports.env = env;

@@ -1,0 +1,39 @@
+@import './colors';
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import '~bootstrap/scss/functions';
+@import './variables';
+@import './mixins';
+@import './fontface';
+@import '~leaflet/dist/leaflet.css';
+@import './theme';
+@import './bootstrap';
+@import './responsive';
+
+html {
+    background: $white;
+    background-color: $white !important;
+}
+
+body {
+    font-family: $font-family;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.6em;
+    color: $body-color;
+}
+
+html .mat-divider {
+    border-top-color: $muted !important;
+}
+
+.bg-pure-white {
+    background-color: #fff !important;
+}
+
+.cf {
+    &::after {
+        display: block;
+        clear: both;
+        content: '';
+    }
+}

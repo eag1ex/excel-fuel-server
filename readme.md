@@ -16,7 +16,12 @@ Application is fixed to `node@12.0.0` and `npm@6.9.0`, so install `nvm` manager 
 $/ npm install
 ```
 
+
 ### Start / build / production
+
+Server starts on port `5000`
+- production ready files are build at` /dist`
+
 
 ```sh
 $/ npm run dev:start # development with nodenom
@@ -29,6 +34,11 @@ $/ npm run build # only build new production files inside /dist
 config settings can be found at `/src/config.ts`
  - includes our user credentials (for demo), and session secret
 
+
+### Running fullstack application from server
+1. Generate new client build _(follow excel-fuel-app-client readme.md instructions)_
+2. Add new build to /views, with the same application name: `/views/excel-fuel` 
+3. Run fullstack app in development or production modes at `localhost:5000/app`
 
 
 #### Live Demo
@@ -43,6 +53,12 @@ https://pacific-meadow-55275.herokuapp.com/app
 You will find a separate file for heroku if providing production only version, so need to rename `package.heroku.json` to `package.json` and follow heroku process instructions.
 
 
+#### Client app repo
+Excel fuel angular app can be found at:
+
+```sh
+/$ git clone https://eag1ex@bitbucket.org/eag1ex/excel-fuel-app-client.git
+```
 
 ### Install
 Required global installations: `nodemon`,`typescript (tsc)`, and `esm`
@@ -125,6 +141,7 @@ Express.js, typescript, rest/api, api/authentication server/session, StaticDB _(
 
 #### Developer Notes
 - Wasn't entirely sure of logic for products/points (ExcelProductPoint[]) and how they should behave so implemented my own take on it:)
+- I have included my last production build at /dist _(for heroku production only deployment)_
 
 
 #### TESTS

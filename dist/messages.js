@@ -20,7 +20,7 @@ messages.msg = (0, utils_1.onMessages)({
     '005': ['Invalid inputs: Name, Address, City, Price, or latitude/longitude', '004'],
     '006': ['No data provided to update', '006'],
     '007': ['Invalid inputs: Name, Price', '007'],
-    '008': ['Problem deteting item', '008'],
+    '008': ['Problem deleting item', '008'],
     '009': ['Problem finding item', '009'],
     '010': ['No credentials', '010'],
 });
