@@ -2,6 +2,7 @@
 This is an express.js server for Excel Fuel _(project)_ build in `Typescript` with `Nodemon`, including full rest/api with authentication and route separations: `/api`,`/app` 
 
 Features:
+
     - Express.js
     - Separation con concerts
     - Typescript with models
@@ -31,11 +32,12 @@ $/ npm run build # only build new production files inside /dist
 
 
 ### Config
-config settings can be found at `/src/config.ts`
+Config settings can be found at `/src/config.ts`
  - includes our user credentials (for demo), and session secret
 
 
 ### Running fullstack application 
+
 1. Generate new client build _(follow excel-fuel-app-client readme.md instructions)_
 2. Add new build to /views, with the same application name: `/views/excel-fuel` 
 3. Run fullstack app in development or production modes at `localhost:5000/app`
@@ -142,11 +144,14 @@ Express.js, typescript, rest/api, api/authentication server/session, StaticDB _(
 
 
 #### Developer Notes
+
 - Wasn't entirely sure of logic for products/points (ExcelProductPoint[]) and how they should behave so implemented my own take on it:)
 - I have included my last production build at /dist _(for heroku production only deployment)_
+- Dont run http://localhost:5000/api/ and http://localhost:5000/app/ in the same browser, angular manifest and ngsw-worker hijacks requests
 
 
 #### TESTS
+
 - No tests available for this projects, except for 1 test to deploy to heroku
 
 
