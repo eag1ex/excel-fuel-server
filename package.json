@@ -9,7 +9,7 @@
     "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project .",
     "start": "cross-env NODE_ENV=production node -r esm dist/server.js",
     "lint:install": "npm i tslint --save-dev",
-    "lint:fix": "./node_modules/.bin/tslint --fix -c tslint.json  src/**/*",
+    "lint:fix": "./node_modules/.bin/tslint --exclude src/libs/StaticDB/json/* --fix -c tslint.json src/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
