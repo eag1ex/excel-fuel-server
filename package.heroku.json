@@ -4,12 +4,7 @@
   "description": "Excel Fuel server (typescript)",
   "main": "dist/server.js",
   "scripts": {
-    "dev:start": "cross-env NODE_ENV=development nodemon -V index",
-    "prod:start": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project . && node -r esm dist/server",
-    "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project .",
-    "start": "cross-env NODE_ENV=production node dist/server.js",
-    "lint:install": "npm i tslint --save-dev",
-    "lint:fix": "./node_modules/.bin/tslint --exclude src/libs/StaticDB/json/* --fix -c tslint.json src/**/*",
+    "start": "node dist/server.js",
     "test": "node test.js"
   },
   "private":true,
@@ -34,7 +29,8 @@
     "mongo-objectid": "^1.2.2",
     "morgan": "^1.10.0",
     "q": "^1.5.1",
-    "x-utils-es": "^2.3.0"
+    "x-utils-es": "^2.3.0",
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -50,7 +46,6 @@
     "nodemon": "^2.0.12",
     "querystring": "^0.2.1",
     "ts-node": "^10.2.1",
-    "tslib": "^2.3.1",
     "tslint": "^6.1.3",
     "typescript": "^4.4.2"
   }

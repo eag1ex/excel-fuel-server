@@ -84,7 +84,7 @@ export default class ApiController {
      * (POST) api/excel/update/:id
      * - body: [{name,price,product_id}]
      * - updating {name,price}
-     * Return updated petron/station by {id}
+     * Return updated excel/station by {id}
      */
     updateExcel(req: Req, res: Resp) {
         const id: string = req.params.id
@@ -106,7 +106,7 @@ export default class ApiController {
     /**
      * (GET) api/excel/delete/:id
      * - delete item from list by id
-     * Return deteled items [id]
+     * Return deleted items [id]
      */
     deleteExcel(req: Req, res: Resp) {
         const id: string = req.params.id

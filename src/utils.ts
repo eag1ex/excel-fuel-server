@@ -45,7 +45,7 @@ export const hasSpecialChar = (str) => {
 
 }
 
-/** return valud price pair */
+/** return valid price pair */
 const validPricePair = (pricePair: ExcelPrice): ExcelPrice => {
     if ( isNaN(Number(pricePair.price)) || (pricePair as any).price === '') return undefined as any
     if (!pricePair.currency || !isString(pricePair.currency )) return undefined as any
@@ -62,7 +62,7 @@ export const validProductPair = (prodPair: ExcelProduct): ExcelProduct => {
 
 
 /**
- * Sheck input data, only return if all required props are provided
+ * check input data, only return if all required props are provided
  */
 export const excelItem = (inputData: ExcelModel): ExcelModel => {
     const { name, address, city, latitude, longitude, prices, products } = inputData // 7 props
@@ -116,7 +116,7 @@ export const onMessages = (messages: { [code: string]: [string, string] }) => {
 }
 
 /**
- * Grab tokep from headers
+ * Grab token from headers
  */
 export const getToken = (headers: any = {}) => {
     if (headers && headers.authorization) {

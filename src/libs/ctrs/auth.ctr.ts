@@ -71,7 +71,7 @@ export default class ServerAuth {
             if (!validCreds({ username: auth.username, password: auth.password })) {
                 return res.status(400).json({ ...messages['000'] })
             } else {
-                // credentials are correnct make new session
+                // credentials are correct make new session
                 this.makeSession(req)
             }
         }

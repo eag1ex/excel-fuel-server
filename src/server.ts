@@ -24,7 +24,7 @@ const init = () => {
     app.use(cors())
 
     app.engine('html', (ejs as any).__express) // ejs.renderFile
-    app.set('view engine', 'html') // default file extention: .html
+    app.set('view engine', 'html') // default file extension: .html
     app.set('views', config.viewsDir)
     app.set('views', path.join(config.viewsDir, 'excel-fuel'))
     // static mappings
@@ -33,7 +33,7 @@ const init = () => {
 
     session(app)
 
-    // NOTE assing auth only to /api/* routes
+    // NOTE assign auth only to /api/* routes
     // ----- load authentication
     try {
         const auth = new Authentication(app, '/api')

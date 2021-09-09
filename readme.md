@@ -1,11 +1,55 @@
-## Excel Fuel (ExF) server (typescript)
+## Excel Fuel server (typescript)
+This is an express.js server for Excel Fuel _(project)_ build in `Typescript` with `Nodemon`, including full rest/api with authentication and route separations: `/api`,`/app` 
+
+Features:
+    - Express.js
+    - Separation con concerts
+    - Typescript with models
+    - Production ready
+    - Linted
 
 
 ### Install
-Required global instalations: `nodemon`,`typescript (tsc)`, and `esm`
+Application is fixed to `node@12.0.0` and `npm@6.9.0`, so install `nvm` manager when required.
+
+```sh
+$/ npm install
+```
+
+### Start / build / production
+
+```sh
+$/ npm run dev:start # development with nodenom
+$/ npm run prod:start # build and run in production
+$/ npm run build # only build new production files inside /dist
+```
+
+
+### Config
+config settings can be found at `/src/config.ts`
+ - includes our user credentials (for demo), and session secret
+
+
+
+#### Live Demo
+Hosted on heroku node.js server (_server has timeout limit_, free dyno):
+
+```
+access:
+https://pacific-meadow-55275.herokuapp.com/app
+```
+
+#### heroku 
+You will find a separate file for heroku if providing production only version, so need to rename `package.heroku.json` to `package.json` and follow heroku process instructions.
+
+
+
+### Install
+Required global installations: `nodemon`,`typescript (tsc)`, and `esm`
 
 
 ### Available API routes:
+
 ```sh
 
 ## Generate new {token}, with body details: {username,password} (credentials in config.ts)
@@ -37,6 +81,11 @@ Required global instalations: `nodemon`,`typescript (tsc)`, and `esm`
 # {"username":"eaglex","password":"eaglex"}
 http://localhost:5000/api/auth
 
+# then add generated token to:  
+### Header: Authorization : Bearer {token} 
+#### to all routes below
+
+
 
 ### (GET) list all stations for current user
 http://localhost:5000/api/excel/stations
@@ -65,6 +114,21 @@ http://localhost:5000/api/excel/update/61335ac2faf7da2be5d966db
 http://localhost:5000/api/excel/delete/61335ac2faf7da2be5d966db 
 
 
-
 ```
 * Assuming the `port` is the same
+
+
+
+### Stack
+Express.js, typescript, rest/api, api/authentication server/session, StaticDB _(database from json)_, x-utils-es (my own), Error/messages, utilities, route/separations, Nodemon
+
+
+#### Developer Notes
+- Wasn't entirely sure of logic for products/points (ExcelProductPoint[]) and how they should behave so implemented my own take on it:)
+
+
+#### TESTS
+- No tests available for this projects, except for 1 test to deploy to heroku
+
+
+#### Thank you

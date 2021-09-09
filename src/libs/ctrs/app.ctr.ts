@@ -1,7 +1,5 @@
 import config from '../../config'
 import { Req, Resp } from '@api/interfaces';
-
-
 export default class AppController {
     debug = config.debug
 
