@@ -5,9 +5,12 @@
     box-shadow: $top $left $blur $size $color !important;
 }
 
-@mixin icons-preset() {
+@mixin icons-preset($even-dimensions: false) {
     vertical-align: middle;
-    height: auto;
+    @if $even-dimensions==false {
+        height: auto;
+    }
+
     max-width: 40px;
     align-self: center !important;
 }
@@ -99,10 +102,13 @@
     .border-none {
         border: none !important;
     }
+}
 
-    // input:disabled {
-    //     border-style: dotted !important;
-    // }
+@mixin style-custom-classes() {
+    .row-offset {
+        margin-left: -35px !important;
+        margin-right: -35px !important;
+    }
 }
 
 @mixin cdk-overlay-container() {
@@ -121,15 +127,5 @@
                 }
             }
         }
-        // #map {
-        //     .leaflet-marker-pane {
-        //         img[src*='baseline_article_black_24dp.png'] {
-        //             @include box-shadow(/*$top*/ 4px, /*$left:*/ 8px, /*$blur:*/ 5px, /* $size:*/ -1px, /*$color:*/ rgba(0, 0, 0, 0.4));
-        //         }
-        //         img[src*='local_gas_station_yellow_24dp.svg'] {
-        //             @include box-shadow(/*$top*/ 3px, /*$left:*/ 4px, /*$blur:*/ 5px, /* $size:*/ -1px, /*$color:*/ rgba(0, 0, 0, 0.35));
-        //         }
-        //     }
-        // }
     }
 }
