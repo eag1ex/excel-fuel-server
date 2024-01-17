@@ -1,15 +1,10 @@
 {
-  "name": "excel-fuel-server",
+  "name": "excel-fuel-server-ts",
   "version": "1.0.0",
   "description": "Excel Fuel server (typescript)",
   "main": "dist/server.js",
   "scripts": {
-    "dev:start": "cross-env NODE_ENV=development nodemon -V index",
-    "prod:start": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project . && node -r esm dist/server",
-    "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project .",
-    "start": "cross-env NODE_ENV=production node dist/server.js",
-    "lint:install": "npm i tslint --save-dev",
-    "lint:fix": "./node_modules/.bin/tslint --exclude src/libs/StaticDB/json/* --fix -c tslint.json src/**/*",
+    "start": "node dist/server.js",
     "test": "node test.js"
   },
   "private":true,

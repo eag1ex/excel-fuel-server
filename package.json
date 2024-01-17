@@ -1,19 +1,23 @@
 {
-  "name": "excel-fuel-server-ts",
+  "name": "excel-fuel-server",
   "version": "1.0.0",
   "description": "Excel Fuel server (typescript)",
   "main": "dist/server.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "dev:start": "cross-env NODE_ENV=development nodemon -V index",
+    "prod:start": "cross-env NODE_ENV=production rm -rf dist/ && tsc --project . && node -r esm dist/server",
+    "build": "cross-env NODE_ENV=production rm -rf dist/ &&tsc --project .",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "lint:install": "npm i tslint --save-dev",
+    "lint:fix": "./node_modules/.bin/tslint --exclude src/libs/StaticDB/json/* --fix -c tslint.json src/**/*",
     "test": "node test.js"
   },
-  "private":true,
+  "private": true,
   "author": "eaglex.net",
   "license": "CC BY-NC-ND 2.0",
   "engineStrict": true,
   "engines": {
-    "node": "~12.0.0",
-    "npm": "~6.9.0"
+    "node": "~12"
   },
   "dependencies": {
     "base-64": "^1.0.0",
@@ -29,8 +33,8 @@
     "mongo-objectid": "^1.2.2",
     "morgan": "^1.10.0",
     "q": "^1.5.1",
-    "x-utils-es": "^2.3.0",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "x-utils-es": "^2.3.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
