@@ -152,3 +152,7 @@ Express.js, typescript, rest/api, api/authentication server/session, StaticDB _(
 -   No tests available for this projects, except for 1 test to deploy to heroku
 
 #### Thank you
+
+#### Notes from developer
+
+This project had MongoDB/mongoose support, we opted for static implementation in purpose in this demo.
