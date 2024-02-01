@@ -1,5 +1,6 @@
 ## Excel Fuel server (typescript)
-This is an express.js server for Excel Fuel _(project)_ build in `Typescript` with `Nodemon`, including full rest/api with authentication and route separations: `/api`,`/app` 
+
+This is an express.js server for Excel Fuel _(project)_ build in `Typescript` with `Nodemon`, including full rest/api with authentication and route separations: `/api`,`/app`
 
 Features:
 
@@ -11,23 +12,21 @@ Features:
     - Rest/api
     - Api Authentication
 
-
 ### Install
 
 Application is fixed to `node@12.0.0` and `npm@6.9.0`, so install `nvm` manager when required.
 
-- Required global installations: `nodemon`,`typescript (tsc)`, and `esm` 
+-   Required global installations: `nodemon`,`typescript (tsc)`, and `esm`
 
 ```sh
 $/ npm install
 ```
 
-
 ### Start / build / production
 
 Server starts on port `5000`
-- production ready files are build at` /dist`
 
+-   production ready files are build at` /dist`
 
 ```sh
 $/ npm run dev:start # development with nodenom
@@ -35,20 +34,20 @@ $/ npm run prod:start # build and run in production
 $/ npm run build # only build new production files inside /dist
 ```
 
-
 ### Config
+
 Config settings can be found at `/src/config.ts`
- - includes our user credentials (for demo), and session secret
 
+-   includes our user credentials (for demo), and session secret
 
-### Running fullstack application 
+### Running fullstack application
 
 1. Generate new client build _(follow excel-fuel-app-client readme.md instructions)_
-2. Add new build to /views, with the same application name: `/views/excel-fuel` 
+2. Add new build to /views, with the same application name: `/views/excel-fuel`
 3. Run fullstack app in development or production modes at `localhost:5000/app`
 
-
 #### Live Demo
+
 Hosted on heroku node.js server (_server has timeout limit_, free dyno):
 
 ```
@@ -56,18 +55,17 @@ access:
 https://pacific-meadow-55275.herokuapp.com/app
 ```
 
+#### heroku
 
-#### heroku 
 You will find a separate file for heroku if providing production only version, so need to rename `package.heroku.json` to `package.json` and follow heroku process instructions.
 
-
 #### Client app repo
+
 Excel fuel angular app can be found at:
 
 ```sh
-/$ git clone https://eag1ex@bitbucket.org/eag1ex/excel-fuel-app-client.git
+/$ git clone https://github.com/eag1ex/excel-fuel-app-client
 ```
-
 
 ### Available API routes:
 
@@ -102,8 +100,8 @@ Excel fuel angular app can be found at:
 # {"username":"eaglex","password":"eaglex"}
 http://localhost:5000/api/auth
 
-# then add generated token to:  
-### Header: Authorization : Bearer {token} 
+# then add generated token to:
+### Header: Authorization : Bearer {token}
 #### to all routes below
 
 
@@ -116,7 +114,7 @@ http://localhost:5000/api/excel/products
 
 
 # get one item
-http://localhost:5000/api/excel/item/61335ac2faf7da2be5d966db 
+http://localhost:5000/api/excel/item/61335ac2faf7da2be5d966db
 
 
 ### (POST) create new item ( validation according with excelItem(...) method)
@@ -132,28 +130,25 @@ http://localhost:5000/api/excel/update/61335ac2faf7da2be5d966db
 
 
 ### (GET) delete one item by {id}
-http://localhost:5000/api/excel/delete/61335ac2faf7da2be5d966db 
+http://localhost:5000/api/excel/delete/61335ac2faf7da2be5d966db
 
 
 ```
-* Assuming the `port` is the same
 
-
+-   Assuming the `port` is the same
 
 ### Stack
-Express.js, typescript, rest/api, api/authentication server/session, StaticDB _(database from json)_, x-utils-es (my own), Error/messages, utilities, route/separations, Nodemon
 
+Express.js, typescript, rest/api, api/authentication server/session, StaticDB _(database from json)_, x-utils-es (my own), Error/messages, utilities, route/separations, Nodemon
 
 #### Developer Notes
 
-- Wasn't entirely sure of logic for products/points (ExcelProductPoint[]) and how they should behave so implemented my own take on it:)
-- I have included my last production build at /dist _(for heroku production only deployment)_
-- Dont run http://localhost:5000/api/ and http://localhost:5000/app/ in the same browser, angular manifest and ngsw-worker hijacks requests
-
+-   Wasn't entirely sure of logic for products/points (ExcelProductPoint[]) and how they should behave so implemented my own take on it:)
+-   I have included my last production build at /dist _(for heroku production only deployment)_
+-   Dont run http://localhost:5000/api/ and http://localhost:5000/app/ in the same browser, angular manifest and ngsw-worker hijacks requests
 
 #### TESTS
 
-- No tests available for this projects, except for 1 test to deploy to heroku
-
+-   No tests available for this projects, except for 1 test to deploy to heroku
 
 #### Thank you
